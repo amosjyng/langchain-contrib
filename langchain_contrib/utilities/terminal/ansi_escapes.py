@@ -30,10 +30,15 @@ def remove_match(line: str, next_match: re.Match[str]) -> str:
 
 
 def remove_ansi_escapes(input: str) -> str:
-    """Remove ANSI escape sequences from the input string.
+    r"""Remove ANSI escape sequences from the input string.
+
+    Assumes that all \r\n have already been replaced by \n.
 
     Incomplete escape interpreter based on
     https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+
+    Additional documentation available at
+    https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
     """
     regex = ansi_escape_regex()
     cleaned: List[str] = []
@@ -67,3 +72,8 @@ def remove_ansi_escapes(input: str) -> str:
             next_match = re.search(regex, line)
         cleaned.append(line)
     return "\n".join(cleaned)
+
+
+def interpret_terminal_output(input: str) -> str:
+    """Render approximately how terminal output looks on screen."""
+    return remove_ansi_escapes(input.replace("\r\n", "\n"))
