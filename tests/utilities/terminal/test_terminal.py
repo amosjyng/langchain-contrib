@@ -17,3 +17,15 @@ def test_directory_change() -> None:
         assert t.run_bash_command("pwd").strip().endswith("langchain-contrib")
         t.run_bash_command("cd tests")
         assert t.run_bash_command("pwd").strip().endswith("langchain-contrib/tests")
+
+
+def test_tabbed_script() -> None:
+    """Check that escaped tabbed output is captured."""
+    t = Terminal()
+    assert t.run_bash_command("tests/resources/tabbed.sh") == "\\ta\n"
+
+
+def test_tabbed_file() -> None:
+    """Check that unescaped tab output is captured."""
+    t = Terminal()
+    assert t.run_bash_command("cat tests/resources/tabbed.txt") == "\ta\n"
