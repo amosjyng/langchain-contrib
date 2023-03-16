@@ -1,0 +1,311 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - 0.0.0.0:8935
+      user-agent:
+      - python-httpx/0.23.3
+    method: GET
+    uri: http://0.0.0.0:8935/ping
+  response:
+    content: ought-ice says pong
+    headers:
+      cache-control:
+      - no-transform
+      content-length:
+      - '19'
+      content-type:
+      - text/plain; charset=utf-8
+      date:
+      - Thu, 16 Mar 2023 07:31:21 GMT
+      server:
+      - uvicorn
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: '{"prompt": ["Answer the following questions as best you can. You have access
+      to the following tools:\n\nTerminal: Executes commands in a terminal. Input
+      should be valid commands, and the output will be any output from running that
+      command.\n\nUse the following format:\n\nQuestion: the input question you must
+      answer\nThought: you should always think about what to do\nAction: the action
+      to take, should be one of [Terminal]\nAction Input: the input to the action\nObservation:
+      the result of the action\n... (this Thought/Action/Action Input/Observation
+      can repeat N times)\nThought: I now know the final answer\nFinal Answer: the
+      final answer to the original input question\n\nBegin!\n\nQuestion: List the
+      folders in the current directory. Enter into one of them. List folders again.\nThought:"],
+      "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
+      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
+      {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1012'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAI/v1 PythonBindings/0.27.2
+    method: POST
+    uri: https://api.openai.com/v1/completions
+  response:
+    body:
+      string: '{"id":"cmpl-6ucMrnNMvKf3xng4tNqvOgewYNrmK","object":"text_completion","created":1678951873,"model":"text-davinci-003","choices":[{"text":"
+        I need to list the folders in the current directory, then enter into one of
+        them and list the folders again.\nAction: Terminal\nAction Input: ls","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":180,"completion_tokens":32,"total_tokens":212}}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '409'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 16 Mar 2023 07:31:15 GMT
+      Openai-Model:
+      - text-davinci-003
+      Openai-Organization: user-dummy
+      Openai-Processing-Ms:
+      - '1496'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Request-Id:
+      - 5d36a4bfcab4faac39624b2dbd58e4ac
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"cmd": "ls"}'
+    headers: {}
+    method: POST
+    uri: tool://Terminal/_get_raw_shell_update
+  response: "ls\r\nLICENSE   README.md\t     poetry.lock     tests\r\nMakefile  langchain_contrib
+    \ pyproject.toml\r\n$ "
+- request:
+    body: '{"prompt": ["Answer the following questions as best you can. You have access
+      to the following tools:\n\nTerminal: Executes commands in a terminal. Input
+      should be valid commands, and the output will be any output from running that
+      command.\n\nUse the following format:\n\nQuestion: the input question you must
+      answer\nThought: you should always think about what to do\nAction: the action
+      to take, should be one of [Terminal]\nAction Input: the input to the action\nObservation:
+      the result of the action\n... (this Thought/Action/Action Input/Observation
+      can repeat N times)\nThought: I now know the final answer\nFinal Answer: the
+      final answer to the original input question\n\nBegin!\n\nQuestion: List the
+      folders in the current directory. Enter into one of them. List folders again.\nThought:
+      I need to list the folders in the current directory, then enter into one of
+      them and list the folders again.\nAction: Terminal\nAction Input: ls\nObservation:
+      LICENSE   README.md\t     poetry.lock     tests\nMakefile  langchain_contrib  pyproject.toml\n\nThought:"],
+      "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
+      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
+      {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1276'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAI/v1 PythonBindings/0.27.2
+    method: POST
+    uri: https://api.openai.com/v1/completions
+  response:
+    body:
+      string: '{"id":"cmpl-6ucMuS1qvfw4dE3L6rKzF1BPAv0FG","object":"text_completion","created":1678951876,"model":"text-davinci-003","choices":[{"text":"
+        I need to enter into one of the folders\nAction: Terminal\nAction Input: cd
+        langchain_contrib","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":250,"completion_tokens":23,"total_tokens":273}}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '358'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 16 Mar 2023 07:31:17 GMT
+      Openai-Model:
+      - text-davinci-003
+      Openai-Organization: user-dummy
+      Openai-Processing-Ms:
+      - '1350'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Request-Id:
+      - 27c635fd8b891ac586ed90dac5f051ae
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"prompt": ["Answer the following questions as best you can. You have access
+      to the following tools:\n\nTerminal: Executes commands in a terminal. Input
+      should be valid commands, and the output will be any output from running that
+      command.\n\nUse the following format:\n\nQuestion: the input question you must
+      answer\nThought: you should always think about what to do\nAction: the action
+      to take, should be one of [Terminal]\nAction Input: the input to the action\nObservation:
+      the result of the action\n... (this Thought/Action/Action Input/Observation
+      can repeat N times)\nThought: I now know the final answer\nFinal Answer: the
+      final answer to the original input question\n\nBegin!\n\nQuestion: List the
+      folders in the current directory. Enter into one of them. List folders again.\nThought:
+      I need to list the folders in the current directory, then enter into one of
+      them and list the folders again.\nAction: Terminal\nAction Input: ls\nObservation:
+      LICENSE   README.md\t     poetry.lock     tests\nMakefile  langchain_contrib  pyproject.toml\n\nThought:
+      I need to enter into one of the folders\nAction: Terminal\nAction Input: cd
+      langchain_contrib\nObservation: \nThought:"], "model": "text-davinci-003", "temperature":
+      0.0, "max_tokens": 256, "top_p": 1, "frequency_penalty": 0, "presence_penalty":
+      0, "n": 1, "best_of": 1, "logit_bias": {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1395'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAI/v1 PythonBindings/0.27.2
+    method: POST
+    uri: https://api.openai.com/v1/completions
+  response:
+    body:
+      string: '{"id":"cmpl-6ucMwORhAelI7dWWIaNI1AUHrOE6t","object":"text_completion","created":1678951878,"model":"text-davinci-003","choices":[{"text":"
+        I need to list the folders again\nAction: Terminal\nAction Input: ls","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":282,"completion_tokens":16,"total_tokens":298}}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '333'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 16 Mar 2023 07:31:19 GMT
+      Openai-Model:
+      - text-davinci-003
+      Openai-Organization: user-dummy
+      Openai-Processing-Ms:
+      - '1803'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Request-Id:
+      - 53cbf7b7df36b6b8d133c5f91d0b16c7
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"cmd": "ls"}'
+    headers: {}
+    method: POST
+    uri: tool://Terminal/_get_raw_shell_update
+  response: "ls\r\n__init__.py  __pycache__  tools  utils\r\n$ "
+- request:
+    body: '{"prompt": ["Answer the following questions as best you can. You have access
+      to the following tools:\n\nTerminal: Executes commands in a terminal. Input
+      should be valid commands, and the output will be any output from running that
+      command.\n\nUse the following format:\n\nQuestion: the input question you must
+      answer\nThought: you should always think about what to do\nAction: the action
+      to take, should be one of [Terminal]\nAction Input: the input to the action\nObservation:
+      the result of the action\n... (this Thought/Action/Action Input/Observation
+      can repeat N times)\nThought: I now know the final answer\nFinal Answer: the
+      final answer to the original input question\n\nBegin!\n\nQuestion: List the
+      folders in the current directory. Enter into one of them. List folders again.\nThought:
+      I need to list the folders in the current directory, then enter into one of
+      them and list the folders again.\nAction: Terminal\nAction Input: ls\nObservation:
+      LICENSE   README.md\t     poetry.lock     tests\nMakefile  langchain_contrib  pyproject.toml\n\nThought:
+      I need to enter into one of the folders\nAction: Terminal\nAction Input: cd
+      langchain_contrib\nObservation: \nThought: I need to list the folders again\nAction:
+      Terminal\nAction Input: ls\nObservation: __init__.py  __pycache__  tools  utils\n\nThought:"],
+      "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
+      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
+      {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1529'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAI/v1 PythonBindings/0.27.2
+    method: POST
+    uri: https://api.openai.com/v1/completions
+  response:
+    body:
+      string: '{"id":"cmpl-6ucMyZ8R1L0DmvrXqa15alXrnSoBk","object":"text_completion","created":1678951880,"model":"text-davinci-003","choices":[{"text":"
+        I now know the final answer\nFinal Answer: The folders in the current directory
+        are LICENSE, README.md, poetry.lock, tests, Makefile, langchain_contrib, pyproject.toml.
+        After entering into the langchain_contrib folder, the folders are __init__.py,
+        __pycache__, tools, and utils.","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":322,"completion_tokens":77,"total_tokens":399}}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '543'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 16 Mar 2023 07:31:24 GMT
+      Openai-Model:
+      - text-davinci-003
+      Openai-Organization: user-dummy
+      Openai-Processing-Ms:
+      - '4083'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Request-Id:
+      - afe154f137ad5008c7af22a76bdee0dd
+    status:
+      code: 200
+      message: OK
+version: 1

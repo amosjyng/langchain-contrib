@@ -3,7 +3,7 @@
 import re
 from typing import NamedTuple, Optional
 
-from langchain_contrib.utilities.terminal.ansi_escapes import (
+from langchain_contrib.tools.terminal.ansi_escapes import (
     ansi_escape_regex,
     interpret_terminal_output,
 )

@@ -3,9 +3,9 @@
 from typing import Callable
 
 from vcr.cassette import Cassette
-from vcr_langchain.patch import GenericPatch
+from vcr_langchain.patch import GenericPatch, add_patchers
 
-from .terminal import Terminal
+from ..terminal import Terminal
 
 
 class TerminalPatch(GenericPatch):
@@ -22,3 +22,6 @@ class TerminalPatch(GenericPatch):
             return self.generic_override(og_self, cmd=cmd)
 
         return _call
+
+
+add_patchers(TerminalPatch)

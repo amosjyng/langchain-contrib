@@ -1,6 +1,6 @@
 """Test the Terminal class."""
 
-from langchain_contrib.utilities.terminal import Terminal
+from langchain_contrib.tools.terminal import Terminal
 from langchain_contrib.utils.tests import current_directory
 
 
