@@ -98,7 +98,7 @@ interactions:
     method: POST
     uri: tool://Terminal/_get_raw_shell_update
   response: "ls\r\nLICENSE   README.md\t     poetry.lock     tests\r\nMakefile  langchain_contrib
-    \ pyproject.toml\r\n$ "
+    \ pyproject.toml\r\nzamm$ "
 - request:
     body: '{"prompt": ["Answer the following questions as best you can. You have access
       to the following tools:\n\nTerminal: Executes commands in a terminal. Input
@@ -236,7 +236,7 @@ interactions:
     headers: {}
     method: POST
     uri: tool://Terminal/_get_raw_shell_update
-  response: "ls\r\n__init__.py  __pycache__  tools  utils\r\n$ "
+  response: "ls\r\n__init__.py  __pycache__  tools  utils\r\nzamm$ "
 - request:
     body: '{"prompt": ["Answer the following questions as best you can. You have access
       to the following tools:\n\nTerminal: Executes commands in a terminal. Input

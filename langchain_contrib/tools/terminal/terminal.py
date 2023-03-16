@@ -39,8 +39,9 @@ class Terminal(BaseModel):
 
     def __init__(
         self,
+        bash_prompt: str = "zamm$ ",
         refresh_interval: float = 0.1,
-        init_delay: float = 0.3,
+        init_delay: float = 0.1,
         output_size: int = 1000,
         **kwargs: Any,
     ) -> None:
@@ -50,9 +51,11 @@ class Terminal(BaseModel):
             refresh_interval: How long to wait between terminal reads.
             init_delay: How long to wait for initial terminal prompt during init.
             output_size: How many characters to read at a time.
+            bash_prompt: Constant Bash prompt to use for terminal.
             **kwargs: Additional arguments to pass to `BaseModel`.
         """
-        sh = pexpect.spawn("/bin/bash", encoding="utf-8")
+        os.environ["PS1"] = bash_prompt
+        sh = pexpect.spawn("/bin/bash --norc", encoding="utf-8")
         time.sleep(init_delay)
         bash_prompt = sh.read_nonblocking(size=output_size)
         super().__init__(
