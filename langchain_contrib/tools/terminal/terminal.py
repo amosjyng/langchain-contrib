@@ -40,6 +40,7 @@ class Terminal(BaseModel):
     def __init__(
         self,
         refresh_interval: float = 0.1,
+        init_delay: float = 0.3,
         output_size: int = 1000,
         **kwargs: Any,
     ) -> None:
@@ -47,11 +48,12 @@ class Terminal(BaseModel):
 
         Args:
             refresh_interval: How long to wait between terminal reads.
+            init_delay: How long to wait for initial terminal prompt during init.
             output_size: How many characters to read at a time.
             **kwargs: Additional arguments to pass to `BaseModel`.
         """
         sh = pexpect.spawn("/bin/bash", encoding="utf-8")
-        time.sleep(refresh_interval)
+        time.sleep(init_delay)
         bash_prompt = sh.read_nonblocking(size=output_size)
         super().__init__(
             refresh_interval=refresh_interval,
