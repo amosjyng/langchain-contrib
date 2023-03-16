@@ -8,6 +8,8 @@ packages = [{include = "langchain_contrib"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+langchain = "^0.0.112"
+pexpect = "^4.8.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -19,6 +21,13 @@ flake8-docstrings = "^1.7.0"
 autoflake = "^2.0.1"
 mypy = "^1.0.1"
 pre-commit = "^3.1.1"
+pytest-asyncio = "^0.20.3"
+openai = "^0.27.2"
+
+
+[tool.poetry.group.zamm.dependencies]
+vcr-langchain = "0.0.19"
+langchain-visualizer = "^0.0.16"
 
 [tool.mypy]
 ignore_missing_imports = "True"
@@ -37,6 +46,13 @@ include_trailing_comma = true
 force_grid_wrap = 0
 line_length = 88
 profile = "black"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+filterwarnings = [
+    "error",
+    'ignore:There is no current event loop:DeprecationWarning',
+]
 
 [build-system]
 requires = ["poetry-core"]
