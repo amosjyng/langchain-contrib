@@ -69,18 +69,7 @@ class Terminal(BaseModel):
         return len(self.bash_prompt)
 
     def _get_raw_shell_update_uncached(self, cmd: str) -> str:
-        """Get the raw terminal output for a command.
-
-        Args:
-            cmd: The command to run.
-
-        Returns:
-            The raw terminal output.
-
-        Raises:
-            UnknownResult: If the terminal output does not end with the
-                expected prompt.
-        """
+        """Get the raw terminal output for a command."""
         self.shell.sendline(cmd)
         results = ""
         try:
@@ -105,24 +94,11 @@ class Terminal(BaseModel):
         """Get the raw terminal output for a command.
 
         Call this function for terminal commands that can/should be cached.
-
-        Args:
-            cmd: The command to run.
-
-        Returns:
-            The raw terminal output.
         """
         return self._get_raw_shell_update_uncached(cmd)
 
     def _is_terminal_state_command(self, cmd: str) -> bool:
-        """Check if a command changes the terminal state.
-
-        Args:
-            cmd: The command to check.
-
-        Returns:
-            True if the command changes the terminal state, False otherwise.
-        """
+        """Check if a command changes the terminal state."""
         return cmd.startswith("cd ")
 
     def _get_shell_update(self, cmd: str) -> str:
@@ -130,12 +106,6 @@ class Terminal(BaseModel):
 
         Results may or may not be cached, depending on whether the command is known to
         modify shell state.
-
-        Args:
-            cmd: The command to run.
-
-        Returns:
-            The terminal output.
         """
         if self._is_terminal_state_command(cmd):
             return self._get_raw_shell_update_uncached(cmd)
@@ -149,8 +119,9 @@ class Terminal(BaseModel):
         Args:
             cmd: The command to run.
 
-        Returns:
-            The terminal output.
+        Raises:
+            UnknownResult: If the terminal output does not end with the
+                expected prompt.
         """
         results = self._get_shell_update(cmd)
         assert results.startswith(cmd), (
