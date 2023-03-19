@@ -1,1 +1,2 @@
 nbsphinx==0.9.1
+sphinx_book_theme==1.0.0
