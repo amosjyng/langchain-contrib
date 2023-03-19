@@ -15,6 +15,7 @@ To get started, check out how to use the :ref:`Persistent Terminal </tools/persi
    :maxdepth: 2
    :caption: Contents:
 
+   llms/llms
    tools/tools
    modules/langchain_contrib
 

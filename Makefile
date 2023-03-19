@@ -1,6 +1,6 @@
-.PHONY: format lint test tests clean release
+.PHONY: format lint test tests docs clean release
 
-all: format lint test
+all: format lint test docs
 
 format:
 	poetry run autoflake .
@@ -16,6 +16,9 @@ lint:
 test: tests
 tests:
 	poetry run pytest -v
+
+docs:
+	poetry run sphinx-apidoc -f -o docs/modules/ langchain_contrib
 
 clean:
 # https://stackoverflow.com/a/41386937/257583
