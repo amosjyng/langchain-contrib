@@ -18,7 +18,7 @@ async def test_use_terminal() -> str:
     `BashProcess` does not support.
     """
     with current_directory():
-        llm = OpenAI(temperature=0)
+        llm = OpenAI(temperature=0)  # type: ignore
         tools = load_tools(["persistent_terminal"], llm=llm)
         agent = initialize_agent(
             tools, llm, agent="zero-shot-react-description", verbose=True

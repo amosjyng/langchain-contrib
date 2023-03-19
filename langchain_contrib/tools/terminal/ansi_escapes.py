@@ -4,7 +4,7 @@ import re
 from typing import List
 
 
-def ansi_escape_regex() -> re.Pattern[str]:
+def ansi_escape_regex() -> re.Pattern:
     """Return a regex pattern to match ANSI escape sequences."""
     # not really ANSI escape sequence, but similar vibe
     rs = r"\r|\\r"
@@ -24,7 +24,7 @@ def ansi_escape_regex() -> re.Pattern[str]:
     return re.compile("|".join([rs, escapes]))
 
 
-def remove_match(line: str, next_match: re.Match[str]) -> str:
+def remove_match(line: str, next_match: re.Match) -> str:
     """Remove the next match from the line."""
     return line[: next_match.start()] + line[next_match.end() :]
 

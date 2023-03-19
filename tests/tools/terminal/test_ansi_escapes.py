@@ -17,7 +17,7 @@ class EscapeCodeResult(NamedTuple):
     command: Optional[str]
 
 
-def search(regex: re.Pattern[str], input: str) -> EscapeCodeResult:
+def search(regex: re.Pattern, input: str) -> EscapeCodeResult:
     """Return structured result for escape code regex searches."""
     search_result = re.search(regex, input)
     assert search_result is not None
