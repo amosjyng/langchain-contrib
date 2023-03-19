@@ -8,8 +8,8 @@ format:
 	poetry run isort .
 
 lint:
-	poetry run mypy .
-	poetry run flake8 .
+	poetry run mypy . --exclude docs/
+	poetry run flake8 . --extend-exclude docs/
 	poetry run black . --check
 	poetry run isort . --check
 
