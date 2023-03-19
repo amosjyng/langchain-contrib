@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   langchain_contrib.llms
    langchain_contrib.tools
    langchain_contrib.utils
 
