@@ -4,7 +4,7 @@ import re
 from typing import List
 
 
-def ansi_escape_regex() -> re.Pattern[str]:
+def ansi_escape_regex() -> re.Pattern:
     """Return a regex pattern to match ANSI escape sequences."""
     # not really ANSI escape sequence, but similar vibe
     rs = r"\r|\\r"
