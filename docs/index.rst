@@ -10,7 +10,8 @@ Welcome to langchain-contrib's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   modules/langchain_contrib.rst
+   tools/tools
+   modules/langchain_contrib
 
 
 

@@ -33,6 +33,8 @@ langchain-visualizer = "^0.0.16"
 [tool.poetry.group.docs.dependencies]
 sphinx = "^6.1.3"
 sphinx-autobuild = "^2021.3.14"
+nbsphinx = "^0.9.1"
+jupyterlab = "^3.6.1"
 
 [tool.mypy]
 ignore_missing_imports = "True"
