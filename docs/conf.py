@@ -1,5 +1,7 @@
 """Configuration file for the Sphinx documentation builder."""
 
+import toml
+
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
@@ -10,8 +12,11 @@ project = "langchain-contrib"
 copyright = "2023, Amos Ng"
 author = "Amos Ng"
 
-version = "0.0.1"
-release = "0.0.1"
+with open("../pyproject.toml") as f:
+    data = toml.load(f)
+
+version = data["tool"]["poetry"]["version"]
+release = version
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
