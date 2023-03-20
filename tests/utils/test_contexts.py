@@ -3,7 +3,16 @@ import os
 
 import pytest
 
-from langchain_contrib.utils import temporary_file
+from langchain_contrib.utils.contexts import current_directory, temporary_file
+
+
+def test_current_directory_restored() -> None:
+    """Test that the current directory will be restored."""
+    current_dir = os.getcwd()
+    with current_directory():
+        os.chdir("..")
+        assert os.getcwd() != current_dir, "Current directory unchanged"
+    assert os.getcwd() == current_dir, "Current directory not restored"
 
 
 def test_temporary_file_asserts() -> None:
