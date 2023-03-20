@@ -5,7 +5,7 @@ from langchain.agents import initialize_agent, load_tools
 from langchain.llms import OpenAI
 
 import langchain_contrib.tools  # noqa: F401
-from langchain_contrib.utils.tests import current_directory
+from langchain_contrib.utils import current_directory
 
 vcr = pytest.importorskip("vcr_langchain")
 
