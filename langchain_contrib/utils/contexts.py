@@ -25,3 +25,21 @@ def current_directory(path: Optional[str] = None) -> Generator:
         yield
     finally:
         os.chdir(og_cwd)
+
+
+@contextmanager
+def temporary_file(path: str, check_creation: bool = True) -> Generator:
+    """Ensure that a temporarily created file will stop existing on exit.
+
+    Useful for cleanup after tests. By default, this also checks that the file will
+    have been successfully created during the test.
+    """
+    if os.path.isfile(path):
+        os.remove(path)
+
+    try:
+        yield
+        assert not check_creation or os.path.isfile(path)
+    finally:
+        if os.path.isfile(path):
+            os.remove(path)

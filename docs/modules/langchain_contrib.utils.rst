@@ -1,13 +1,16 @@
 langchain\_contrib.utils package
 ================================
 
-Subpackages
------------
+Submodules
+----------
 
-.. toctree::
-   :maxdepth: 4
+langchain\_contrib.utils.contexts module
+----------------------------------------
 
-   langchain_contrib.utils.tests
+.. automodule:: langchain_contrib.utils.contexts
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
