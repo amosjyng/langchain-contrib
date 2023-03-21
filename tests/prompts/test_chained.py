@@ -10,7 +10,7 @@ from langchain.prompts.chat import (
 from langchain.prompts.prompt import PromptTemplate
 from langchain.schema import HumanMessage, SystemMessage
 
-from langchain_contrib.chains.chained import ChainedPromptTemplate
+from langchain_contrib.prompts.chained import ChainedPromptTemplate
 
 
 def test_plain_string_chaining() -> None:
