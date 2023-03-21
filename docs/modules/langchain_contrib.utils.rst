@@ -12,6 +12,14 @@ langchain\_contrib.utils.contexts module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.utils.fvalues module
+---------------------------------------
+
+.. automodule:: langchain_contrib.utils.fvalues
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
