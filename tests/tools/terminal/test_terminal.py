@@ -1,7 +1,7 @@
 """Test the Terminal class."""
 
 from langchain_contrib.tools.terminal import Terminal
-from langchain_contrib.utils.tests import current_directory
+from langchain_contrib.utils import current_directory
 
 
 def test_terminal_simple_bash() -> None:
