@@ -12,6 +12,22 @@ langchain\_contrib.prompts.chained module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.prompts.prefixed module
+------------------------------------------
+
+.. automodule:: langchain_contrib.prompts.prefixed
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+langchain\_contrib.prompts.schema module
+----------------------------------------
+
+.. automodule:: langchain_contrib.prompts.schema
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

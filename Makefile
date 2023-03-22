@@ -18,6 +18,7 @@ tests:
 	poetry run pytest -v
 
 docs:
+	rm -rf docs/modules/
 	poetry run sphinx-apidoc -f -o docs/modules/ langchain_contrib
 
 clean:
