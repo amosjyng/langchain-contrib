@@ -1,24 +1,18 @@
 """Defines the Chained prompt template type."""
 
-from typing import Any, List, Union
+from typing import Any, List
 
-from langchain.prompts import PromptTemplate
 from langchain.prompts.base import (
     BasePromptTemplate,
     StringPromptTemplate,
     StringPromptValue,
 )
-from langchain.prompts.chat import (
-    BaseMessagePromptTemplate,
-    ChatPromptTemplate,
-    ChatPromptValue,
-)
-from langchain.schema import BaseMessage, PromptValue
+from langchain.prompts.chat import ChatPromptValue
+from langchain.schema import PromptValue
 
 from langchain_contrib.utils import f_join, safe_inputs
 
-Templatable = Union[str, BaseMessagePromptTemplate, BaseMessage, BasePromptTemplate]
-"""Anything that can be converted directly into a BasePromptTemplate."""
+from .schema import Templatable, into_template
 
 
 class ChainedPromptTemplate(StringPromptTemplate):
@@ -40,19 +34,7 @@ class ChainedPromptTemplate(StringPromptTemplate):
 
         subprompts can be passed in as just plain strings for convenience.
         """
-        prompts: List[BasePromptTemplate] = []
-        for subprompt in subprompts:
-            if isinstance(subprompt, str):
-                if subprompt != "":  # ignore empty strings
-                    prompts.append(PromptTemplate.from_template(subprompt))
-            elif isinstance(subprompt, BaseMessagePromptTemplate) or isinstance(
-                subprompt, BaseMessage
-            ):
-                prompts.append(ChatPromptTemplate.from_messages([subprompt]))
-            elif isinstance(subprompt, BasePromptTemplate):
-                prompts.append(subprompt)
-            else:
-                raise ValueError(f"Subprompt {subprompt} has unknown type")
+        prompts = [into_template(p) for p in subprompts]
         input_variables = list(
             set([var for subprompt in prompts for var in subprompt.input_variables])
         )
