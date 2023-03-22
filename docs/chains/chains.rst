@@ -7,3 +7,4 @@ This is a collection of experimental chains.
    :maxdepth: 4
 
    fake.ipynb
+   choice.ipynb
