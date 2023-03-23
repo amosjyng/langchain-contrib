@@ -17,6 +17,7 @@ To get started, check out how to use the :ref:`Persistent Terminal </tools/persi
 
    llms/llms
    prompts/prompts
+   chains/chains
    tools/tools
    modules/langchain_contrib
 
