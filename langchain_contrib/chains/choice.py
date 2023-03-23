@@ -1,6 +1,6 @@
 """Chain that chooses and performs the next action."""
 from abc import ABC
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Mapping
 
 from langchain.chains.base import Chain
 from pydantic import BaseModel
@@ -19,13 +19,15 @@ class ChoiceChain(Chain, BaseModel, ABC):
     Override this to do additional dict munging before it gets passed through to
     the chosen chain.
     """
-    choices: Dict[str, Chain]
+    choices: Mapping[str, Chain]
     """The chains that will be run depending on the LLM's choice.
 
     This is a mapping from which LLM output corresponds to which chain.
     """
     choice_key: str = "choice"
     """choice_picker output key that tells us which choice was picked."""
+    ignore_keys: List[str] = []
+    """Keys that will be returned in final output, but not passed on to chosen chain."""
 
     @property
     def input_keys(self) -> List[str]:
@@ -49,7 +51,14 @@ class ChoiceChain(Chain, BaseModel, ABC):
     def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
         """Run the logic of this chain and return the output."""
         raw_picker_output = self.choice_picker(inputs, return_only_outputs=True)
-        picker_output = self.prep_picker_output(raw_picker_output)
+        ignored_output = {
+            k: v for k, v in raw_picker_output.items() if k in self.ignore_keys
+        }
+        real_raw_output = {
+            k: v for k, v in raw_picker_output.items() if k not in self.ignore_keys
+        }
+
+        picker_output = self.prep_picker_output(real_raw_output)
         if self.choice_key not in picker_output:
             raise KeyError(f"Choice-picking chain did not emit '{self.choice_key}'")
         choice = picker_output.pop(self.choice_key)
@@ -64,4 +73,9 @@ class ChoiceChain(Chain, BaseModel, ABC):
         full_inputs = {**inputs, **picker_output}
         chain_inputs = safe_inputs(chosen_chain, full_inputs)
         chain_output = chosen_chain(chain_inputs)
-        return {self.choice_key: choice, **picker_output, **chain_output}
+        return {
+            self.choice_key: choice,
+            **ignored_output,
+            **picker_output,
+            **chain_output,
+        }

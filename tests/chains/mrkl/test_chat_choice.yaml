@@ -1,0 +1,117 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - 0.0.0.0:8935
+      user-agent:
+      - python-httpx/0.23.3
+    method: GET
+    uri: http://0.0.0.0:8935/ping
+  response:
+    content: ought-ice says pong
+    headers:
+      cache-control:
+      - no-transform
+      content-length:
+      - '19'
+      content-type:
+      - text/plain; charset=utf-8
+      date:
+      - Thu, 23 Mar 2023 04:18:58 GMT
+      server:
+      - uvicorn
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: '{"messages": [{"role": "system", "content": "Answer the following questions
+      as best you can. You have access to the following tools:\n\nTerminal: Executes
+      commands in a terminal. Input should be valid commands, and the output will
+      be any output from running that command.\n\nThe way you use the tools is by
+      specifying a json blob.\nSpecifically, this json should have a `action` key
+      (with the name of the tool to use) and a `action_input` key (with the input
+      to the tool going here).\n\nThe only values that should be in the \"action\"
+      field are: Terminal\n\nThe $JSON_BLOB should only contain a SINGLE action, do
+      NOT return a list of multiple actions. Here is an example of a valid $JSON_BLOB:\n\n```\n{{\n  \"action\":
+      $TOOL_NAME,\n  \"action_input\": $INPUT\n}}\n```\n\nHere is an example of an
+      invalid $JSON_BLOB:\n\n```\n{{\n  \"action\": $FIRST_TOOL_NAME,\n  \"action_input\":
+      $FIRST_INPUT\n}}\n\n{{\n  \"action\": $SECOND_TOOL_NAME,\n  \"action_input\":
+      $SECOND_INPUT\n}}\n```\n\nALWAYS use the following format:\n\nQuestion: the
+      input question you must answer\nThought: you should always think about what
+      to do\nAction:\n```\n$JSON_BLOB\n```\nObservation: the result of the action\n...
+      (this Thought/Action/Observation can repeat N times)\nThought: I now know the
+      final answer\nFinal Answer: the final answer to the original input question\n\nBegin!
+      Reminder to always use the exact characters `Final Answer` when responding."},
+      {"role": "user", "content": "List the folders in the current directory. Enter
+      into one of them. List folders again.\n\n"}], "model": "gpt-3.5-turbo", "max_tokens":
+      null, "stream": false, "n": 1, "stop": ["\nObservation:"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1659'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAI/v1 PythonBindings/0.27.2
+    method: POST
+    uri: https://api.openai.com/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-6x6hXwh5UeArRoJoy53ywJVxRW5jw","object":"chat.completion","created":1679545131,"model":"gpt-3.5-turbo-0301","usage":{"prompt_tokens":354,"completion_tokens":67,"total_tokens":421},"choices":[{"message":{"role":"assistant","content":"Question:
+        List the folders in the current directory. Enter into one of them. List folders
+        again.\nThought: I can use the Terminal tool to execute commands to list folders
+        and navigate into a folder.\nAction:\n```\n{\n  \"action\": \"Terminal\",\n  \"action_input\":
+        \"ls -d */\"\n}\n```"},"finish_reason":"stop","index":0}]}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '574'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 23 Mar 2023 04:18:54 GMT
+      Openai-Model:
+      - gpt-3.5-turbo-0301
+      Openai-Organization: user-dummy
+      Openai-Processing-Ms:
+      - '3037'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '3500'
+      X-Ratelimit-Remaining-Requests:
+      - '3499'
+      X-Ratelimit-Reset-Requests:
+      - 17ms
+      X-Request-Id:
+      - 3451775ac55192709b378b1234d095aa
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"cmd": "ls -d */"}'
+    headers: {}
+    method: POST
+    uri: tool://Terminal/_get_raw_shell_update
+  response: "ls -d */\r\ndist/  docs/  langchain_contrib/  tests/\r\nzamm$ "
+version: 1

@@ -68,6 +68,20 @@ The $JSON_BLOB should only contain a SINGLE action, do NOT return a list of mult
 }}}}
 ```
 
+Here is an example of an invalid $JSON_BLOB:
+
+```
+{{{{
+  "action": $FIRST_TOOL_NAME,
+  "action_input": $FIRST_INPUT
+}}}}
+
+{{{{
+  "action": $SECOND_TOOL_NAME,
+  "action_input": $SECOND_INPUT
+}}}}
+```
+
 ALWAYS use the following format:
 
 Question: the input question you must answer

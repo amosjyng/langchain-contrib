@@ -4,10 +4,18 @@ langchain\_contrib.chains.mrkl package
 Submodules
 ----------
 
-langchain\_contrib.chains.mrkl.pick\_action\_chain module
----------------------------------------------------------
+langchain\_contrib.chains.mrkl.choice module
+--------------------------------------------
 
-.. automodule:: langchain_contrib.chains.mrkl.pick_action_chain
+.. automodule:: langchain_contrib.chains.mrkl.choice
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+langchain\_contrib.chains.mrkl.pick\_action module
+--------------------------------------------------
+
+.. automodule:: langchain_contrib.chains.mrkl.pick_action
    :members:
    :undoc-members:
    :show-inheritance:

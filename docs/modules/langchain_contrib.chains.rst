@@ -28,6 +28,14 @@ langchain\_contrib.chains.testing module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.chains.tool module
+-------------------------------------
+
+.. automodule:: langchain_contrib.chains.tool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

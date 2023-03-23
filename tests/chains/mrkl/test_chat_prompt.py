@@ -1,4 +1,4 @@
-"""Test agent usage of terminal."""
+"""Test MRKL agent decision making for chat prompts."""
 
 from typing import Dict
 
@@ -15,7 +15,7 @@ vcr = pytest.importorskip("vcr_langchain")
 
 @vcr.use_cassette()
 async def test_chat_prompt() -> Dict[str, str]:
-    """Check that the string MRKL prompt gets the LLM to pick an action as expected."""
+    """Check that the chat MRKL prompt gets the LLM to pick an action as expected."""
     with current_directory():
         llm = ChatOpenAI()  # type: ignore
         tools = load_tools(["persistent_terminal"])
@@ -28,7 +28,7 @@ async def test_chat_prompt() -> Dict[str, str]:
                 ),
                 "agent_scratchpad": "",
             },
-            return_only_outputs=False,
+            return_only_outputs=True,
         )
         assert result["action_input"] == "ls"
         return result
