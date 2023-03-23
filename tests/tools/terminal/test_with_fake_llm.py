@@ -3,7 +3,7 @@
 from langchain.agents import initialize_agent, load_tools
 
 import langchain_contrib.tools  # noqa: F401
-from langchain_contrib.llms import FakeLLM
+from langchain_contrib.llms.testing import FakeLLM
 from langchain_contrib.utils import current_directory
 
 
