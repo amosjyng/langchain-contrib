@@ -1,0 +1,108 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - 0.0.0.0:8935
+      user-agent:
+      - python-httpx/0.23.3
+    method: GET
+    uri: http://0.0.0.0:8935/ping
+  response:
+    content: ought-ice says pong
+    headers:
+      cache-control:
+      - no-transform
+      content-length:
+      - '19'
+      content-type:
+      - text/plain; charset=utf-8
+      date:
+      - Thu, 23 Mar 2023 02:43:38 GMT
+      server:
+      - uvicorn
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: '{"messages": [{"role": "system", "content": "Answer the following questions
+      as best you can. You have access to the following tools:\n\nTerminal: Executes
+      commands in a terminal. Input should be valid commands, and the output will
+      be any output from running that command.\n\nThe way you use the tools is by
+      specifying a json blob.\nSpecifically, this json should have a `action` key
+      (with the name of the tool to use) and a `action_input` key (with the input
+      to the tool going here).\n\nThe only values that should be in the \"action\"
+      field are: Terminal\n\nThe $JSON_BLOB should only contain a SINGLE action, do
+      NOT return a list of multiple actions. Here is an example of a valid $JSON_BLOB:\n\n```\n{{\n  \"action\":
+      $TOOL_NAME,\n  \"action_input\": $INPUT\n}}\n```\n\nALWAYS use the following
+      format:\n\nQuestion: the input question you must answer\nThought: you should
+      always think about what to do\nAction:\n```\n$JSON_BLOB\n```\nObservation: the
+      result of the action\n... (this Thought/Action/Observation can repeat N times)\nThought:
+      I now know the final answer\nFinal Answer: the final answer to the original
+      input question\n\nBegin! Reminder to always use the exact characters `Final
+      Answer` when responding."}, {"role": "user", "content": "List the folders in
+      the current directory. Enter into one of them. List folders again.\n\n"}], "model":
+      "gpt-3.5-turbo", "max_tokens": null, "stream": false, "n": 1, "stop": ["\nObservation:"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1445'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAI/v1 PythonBindings/0.27.2
+    method: POST
+    uri: https://api.openai.com/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-6x5DGYCdEHu7ZUwTtZSkUesR56x1U","object":"chat.completion","created":1679539410,"model":"gpt-3.5-turbo-0301","usage":{"prompt_tokens":296,"completion_tokens":61,"total_tokens":357},"choices":[{"message":{"role":"assistant","content":"Question:
+        List the folders in the current directory. Enter into one of them. List folders
+        again.\nThought: I should use the Terminal tool to navigate the directories
+        and list the folders.\nAction:\n```\n{\n  \"action\": \"Terminal\",\n  \"action_input\":
+        \"ls\"\n}\n```"},"finish_reason":"stop","index":0}]}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '557'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 23 Mar 2023 02:43:33 GMT
+      Openai-Model:
+      - gpt-3.5-turbo-0301
+      Openai-Organization: user-dummy
+      Openai-Processing-Ms:
+      - '2835'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '3500'
+      X-Ratelimit-Remaining-Requests:
+      - '3499'
+      X-Ratelimit-Reset-Requests:
+      - 17ms
+      X-Request-Id:
+      - 0c44b3062416cf5c3ca67e061d8ebe55
+    status:
+      code: 200
+      message: OK
+version: 1

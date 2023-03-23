@@ -20,6 +20,14 @@ langchain\_contrib.utils.fvalues module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.utils.llm module
+-----------------------------------
+
+.. automodule:: langchain_contrib.utils.llm
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 langchain\_contrib.utils.safe module
 ------------------------------------
 
