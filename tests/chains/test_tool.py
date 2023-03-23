@@ -1,11 +1,12 @@
 """Test the Chain wrapper for Tools."""
-
-import vcr_langchain as vcr
+import pytest
 from langchain.chains.sequential import SequentialChain
 
 from langchain_contrib.chains.testing import FakeChain
 from langchain_contrib.chains.tool import ToolChain
 from langchain_contrib.tools import TerminalTool
+
+vcr = pytest.importorskip("vcr_langchain")
 
 
 def test_chain_can_be_called() -> None:

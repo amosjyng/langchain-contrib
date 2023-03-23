@@ -69,6 +69,7 @@ asyncio_mode = "auto"
 filterwarnings = [
     "error",
     'ignore:There is no current event loop:DeprecationWarning',
+    'ignore:unclosed <ssl.SSLSocket:ResourceWarning',
 ]
 
 [build-system]
