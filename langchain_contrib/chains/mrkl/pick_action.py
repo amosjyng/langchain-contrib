@@ -40,7 +40,7 @@ class MrklPickActionChain(Chain):
         prompt_selector: Type[MrklPromptSelector] = MrklPromptSelector,
     ) -> MrklPickActionChain:
         """Instantiate the MRKL action chain from a list of tools."""
-        prompt = prompt_selector(tools=tools).get_prompt(llm)
+        prompt = prompt_selector.from_tools(tools=tools).get_prompt(llm)
         return cls(llm=llm, prompt=prompt)
 
     @property

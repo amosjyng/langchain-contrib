@@ -1,13 +1,11 @@
 """Prompting configuration for MRKL agents."""
+from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from typing import List
 
 from fvalues import F
-from langchain.chains.prompt_selector import (
-    BasePromptSelector,
-    ConditionalPromptSelector,
-    is_chat_model,
-)
+from langchain.chains.prompt_selector import ConditionalPromptSelector, is_chat_model
 from langchain.prompts.base import BasePromptTemplate
 from langchain.prompts.chat import (
     ChatPromptTemplate,
@@ -15,20 +13,60 @@ from langchain.prompts.chat import (
     SystemMessagePromptTemplate,
 )
 from langchain.prompts.prompt import PromptTemplate
-from langchain.schema import BaseLanguageModel
 from langchain.tools.base import BaseTool
 from pydantic import BaseModel, Extra
 
+from langchain_contrib.prompts import ChoicePromptTemplate
+from langchain_contrib.prompts.choice import get_simple_joiner
 from langchain_contrib.utils import f_join
 
 
-class MrklPromptSelector(BaseModel):
-    """Prompt definitions for the MRKL agent."""
+class BaseMrklPrompt(BaseModel, ABC):
+    """A base class for MRKL prompting."""
 
     tools: List[BaseTool]
     """Tools that the MRKL agent has access to."""
 
-    string_template_text: str = """
+    class Config:
+        """Configuration for this pydantic object."""
+
+        extra = Extra.forbid
+
+    @property
+    @abstractmethod
+    def base_prompt(self) -> BasePromptTemplate:
+        """The basis for the MRKL prompt."""
+
+    @property
+    def tool_names(self) -> List[str]:
+        """Just the names of the tools, without their descriptions."""
+        return [tool.name for tool in self.tools]
+
+    @property
+    def tool_descriptions(self) -> F:
+        """Descriptions of the tools and their usage."""
+        return f_join(
+            "\n", [F(f"{tool.name}: {tool.description}") for tool in self.tools]
+        )
+
+    def template(self) -> ChoicePromptTemplate:
+        """Return a ChoicePromptTemplate for these tools."""
+        partial_choice = ChoicePromptTemplate.from_base_template(
+            base_template=self.base_prompt,
+            choices=self.tool_names,
+            choice_format_key="tool_names",
+            choices_formatter=get_simple_joiner(),
+        ).partial(
+            tool_descriptions=self.tool_descriptions,
+        )
+        assert isinstance(partial_choice, ChoicePromptTemplate)
+        return partial_choice
+
+
+class StringMrklPrompt(BaseMrklPrompt):
+    """The string version of the prompt to the MRKL agent."""
+
+    template_text: str = """
 Answer the following questions as best you can. You have access to the following tools:
 
 {tool_descriptions}
@@ -49,7 +87,16 @@ Begin!
 Question: {input}
 Thought:{agent_scratchpad}""".lstrip()  # noqa
 
-    chat_system_template_text: str = """
+    @property
+    def base_prompt(self) -> BasePromptTemplate:
+        """The basis for the string MRKL prompt."""
+        return PromptTemplate.from_template(self.template_text)
+
+
+class ChatMrklPrompt(BaseMrklPrompt):
+    """The chat version of the prompt to the MRKL agent."""
+
+    system_template: str = """
 Answer the following questions as best you can. You have access to the following tools:
 
 {tool_descriptions}
@@ -98,60 +145,33 @@ Final Answer: the final answer to the original input question
 Begin! Reminder to always use the exact characters `Final Answer` when responding.
 """.strip()  # noqa
 
-    chat_human_template: str = """{input}\n\n{agent_scratchpad}"""
+    human_template: str = """{input}\n\n{agent_scratchpad}"""
+
+    @property
+    def base_prompt(self) -> BasePromptTemplate:
+        """The basis for the chat MRKL prompt."""
+        return ChatPromptTemplate.from_messages(
+            messages=[
+                SystemMessagePromptTemplate.from_template(self.system_template),
+                HumanMessagePromptTemplate.from_template(self.human_template),
+            ]
+        )
+
+
+class MrklPromptSelector(ConditionalPromptSelector):
+    """Prompt definitions for the MRKL agent."""
 
     class Config:
         """Configuration for this pydantic object."""
 
         extra = Extra.forbid
 
-    @property
-    def tool_names(self) -> str:
-        """Just the names of the tools, without their descriptions."""
-        return ", ".join([tool.name for tool in self.tools])
-
-    @property
-    def tool_descriptions(self) -> F:
-        """Descriptions of the tools and their usage."""
-        return f_join(
-            "\n", [F(f"{tool.name}: {tool.description}") for tool in self.tools]
+    @classmethod
+    def from_tools(cls, tools: List[BaseTool]) -> MrklPromptSelector:
+        """Construct MRKL prompt selector from a list of tools."""
+        string_prompt_template = StringMrklPrompt(tools=tools).template()
+        chat_prompt_template = ChatMrklPrompt(tools=tools).template()
+        return cls(
+            default_prompt=string_prompt_template,
+            conditionals=[(is_chat_model, chat_prompt_template)],
         )
-
-    @property
-    def string_prompt_template(self) -> PromptTemplate:
-        """String prompt template for the MRKL agent."""
-        prompt = PromptTemplate.from_template(self.string_template_text).partial(
-            tool_names=self.tool_names,
-            tool_descriptions=self.tool_descriptions,
-        )
-        assert isinstance(prompt, PromptTemplate)
-        return prompt
-
-    @property
-    def chat_prompt_template(self) -> ChatPromptTemplate:
-        """Chat prompt template for the MRKL agent."""
-        system_string_prompt = PromptTemplate.from_template(
-            self.chat_system_template_text
-        ).partial(
-            tool_names=self.tool_names,
-            tool_descriptions=self.tool_descriptions,
-        )
-        assert isinstance(system_string_prompt, PromptTemplate)
-        return ChatPromptTemplate.from_messages(
-            messages=[
-                SystemMessagePromptTemplate(prompt=system_string_prompt),
-                HumanMessagePromptTemplate.from_template(self.chat_human_template),
-            ]
-        )
-
-    @property
-    def prompt_selector(self) -> BasePromptSelector:
-        """Prompt selector for the MRKL agent."""
-        return ConditionalPromptSelector(
-            default_prompt=self.string_prompt_template,
-            conditionals=[(is_chat_model, self.chat_prompt_template)],
-        )
-
-    def get_prompt(self, llm: BaseLanguageModel) -> BasePromptTemplate:
-        """Get the prompt customized for the given LLM."""
-        return self.prompt_selector.get_prompt(llm)

@@ -1,6 +1,14 @@
 langchain\_contrib.prompts package
 ==================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   langchain_contrib.prompts.choice
+
 Submodules
 ----------
 
