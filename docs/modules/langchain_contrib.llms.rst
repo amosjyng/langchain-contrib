@@ -1,6 +1,14 @@
 langchain\_contrib.llms package
 ===============================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   langchain_contrib.llms.human
+
 Submodules
 ----------
 
