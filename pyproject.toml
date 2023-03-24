@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langchain-contrib"
-version = "0.0.3"
+version = "0.0.4"
 description = ""
 authors = ["Amos Jun-yeung Ng <me@amos.ng>"]
 readme = "README.md"
