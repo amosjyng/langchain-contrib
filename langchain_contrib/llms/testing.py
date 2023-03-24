@@ -1,4 +1,4 @@
-"""Fake LLM wrapper for testing purposes."""
+"""Fake LLMs for testing purposes."""
 from typing import Any, List, Mapping, Optional
 
 from langchain.llms.base import LLM

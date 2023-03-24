@@ -1,7 +1,7 @@
 """Tests for FakeLLM."""
 import pytest
 
-from langchain_contrib.llms import FakeLLM
+from langchain_contrib.llms.testing import FakeLLM
 
 
 def test_fake_foo() -> None:

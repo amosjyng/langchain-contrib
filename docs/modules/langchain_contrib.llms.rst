@@ -4,10 +4,10 @@ langchain\_contrib.llms package
 Submodules
 ----------
 
-langchain\_contrib.llms.fake module
------------------------------------
+langchain\_contrib.llms.testing module
+--------------------------------------
 
-.. automodule:: langchain_contrib.llms.fake
+.. automodule:: langchain_contrib.llms.testing
    :members:
    :undoc-members:
    :show-inheritance:
