@@ -7,3 +7,4 @@ This is a collection of experimental LLMs.
    :maxdepth: 4
 
    fake.ipynb
+   human.ipynb

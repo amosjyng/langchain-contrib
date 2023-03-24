@@ -1,0 +1,9 @@
+interactions:
+- request:
+    body: '{"prompt": "Your choices are: Red, Orange, or Blue\n\nPick the second one:
+      ", "stop": null}'
+    headers: {}
+    method: POST
+    uri: tool://Human/_call
+  response: Orange
+version: 1

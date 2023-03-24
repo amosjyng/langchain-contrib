@@ -4273,6 +4273,18 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8 (<5)", "flake8-202
 testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
+name = "simple-term-menu"
+version = "1.6.1"
+description = "A Python package which creates simple interactive menus on the command line."
+category = "main"
+optional = false
+python-versions = "~=3.5"
+files = [
+    {file = "simple-term-menu-1.6.1.tar.gz", hash = "sha256:368b4158d1749b868552fb6c054b8301785086c71a7253dac8404cc3cb2d30e8"},
+    {file = "simple_term_menu-1.6.1-py3-none-any.whl", hash = "sha256:f12945d5c6998088e86a228e0aff12ff655f5bfad786c86677f23faa1d2afa50"},
+]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -5494,4 +5506,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "00ffc0ffa5fd28b6f01c946a7399d5b7e1dc94115be41129773fba63280fd2f4"
+content-hash = "ebf9ce97aba6b6b72bd13e7309f34b8f0f845510935fee34d368ae1bcefd9fdc"
