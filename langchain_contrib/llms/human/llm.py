@@ -46,11 +46,15 @@ class Human(BaseHuman):
     def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
         """Get the human to respond to the given prompt."""
         if isinstance(prompt, ChoiceStr):
-            print(prompt)
-            print()
-            result = TerminalMenu(prompt.choices).show()
-            if result is None:
-                raise ValueError("No menu response; user might've hit ctrl-C")
-            return prompt.choices[result]
+            try:
+                print(prompt)
+                print()
+                result = TerminalMenu(prompt.choices).show()
+                if result is None:
+                    raise ValueError("No menu response; user might've hit ctrl-C")
+                return prompt.choices[result]
+            except OSError:
+                # likely because of: [Errno 6] No such device or address: '/dev/tty'
+                return super()._call("", stop)
 
         return super()._call(prompt, stop)

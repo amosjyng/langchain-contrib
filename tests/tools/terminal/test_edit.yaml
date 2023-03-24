@@ -1,0 +1,8 @@
+interactions:
+- request:
+    body: '{"cmd": "touch important.txt"}'
+    headers: {}
+    method: POST
+    uri: tool://Terminal/_get_raw_shell_update
+  response: "touch important.txt\r\nzamm$ "
+version: 1
