@@ -7,3 +7,4 @@ This is a collection of experimental tools.
    :maxdepth: 4
 
    persistent_terminal.ipynb
+   safe_terminal.ipynb

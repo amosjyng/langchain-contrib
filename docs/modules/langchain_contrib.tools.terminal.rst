@@ -20,6 +20,14 @@ langchain\_contrib.tools.terminal.ansi\_escapes module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.tools.terminal.safety module
+-----------------------------------------------
+
+.. automodule:: langchain_contrib.tools.terminal.safety
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 langchain\_contrib.tools.terminal.terminal module
 -------------------------------------------------
 
