@@ -9,3 +9,4 @@ This is a collection of experimental prompt types.
    chained.ipynb
    prefixed.ipynb
    choice.ipynb
+   dummy.ipynb

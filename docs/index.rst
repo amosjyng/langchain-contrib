@@ -19,6 +19,7 @@ To get started, check out how to use the :ref:`Persistent Terminal </tools/persi
    prompts/prompts
    chains/chains
    tools/tools
+   agents/agents
    modules/langchain_contrib
 
 

@@ -20,6 +20,14 @@ langchain\_contrib.prompts.chained module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.prompts.dummy module
+---------------------------------------
+
+.. automodule:: langchain_contrib.prompts.dummy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 langchain\_contrib.prompts.prefixed module
 ------------------------------------------
 
