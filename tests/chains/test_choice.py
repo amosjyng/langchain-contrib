@@ -5,7 +5,7 @@ from typing import Dict
 import pytest
 
 from langchain_contrib.chains import ChoiceChain
-from langchain_contrib.chains.testing import FakeChain
+from langchain_contrib.chains.testing import FakeChain, FakePicker
 
 
 def test_invalid_choice() -> None:
@@ -21,22 +21,10 @@ def test_invalid_choice() -> None:
         choices({})
 
 
-def choice(inputs: Dict[str, str]) -> Dict[str, str]:
-    """Convert the 'c' key to 'choice'."""
-    return {"choice": inputs["c"]}
-
-
-fake_picker = FakeChain(
-    expected_inputs=["c"],
-    expected_outputs=["choice"],
-    inputs_to_outputs=choice,
-)
-
-
 def test_make_choices() -> None:
     """Test that the choice chain can pick different choices with different outputs."""
     choices = ChoiceChain(
-        choice_picker=fake_picker,
+        choice_picker=FakePicker(),
         choices={
             "first": FakeChain(output={"a": "one"}),
             "second": FakeChain(output={"b": "two"}),
@@ -62,7 +50,7 @@ def test_custom_arguments() -> None:
             return {**picker_outputs, "b_input": "bar"}
 
     choices = ChoiceChain(
-        choice_picker=fake_picker,
+        choice_picker=FakePicker(),
         prep_picker_output=prep_picker,
         choices={
             "first": FakeChain(expected_inputs=["a_input"], output={"a": "one"}),
@@ -91,7 +79,7 @@ def test_separated_io() -> None:
             return {**picker_outputs, "b_input": "bar"}
 
     choices = ChoiceChain(
-        choice_picker=fake_picker,
+        choice_picker=FakePicker(),
         prep_picker_output=prep_picker,
         choices={
             "first": FakeChain(expected_inputs=["a_input"], output={"a": "one"}),
