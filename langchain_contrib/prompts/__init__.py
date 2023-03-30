@@ -5,6 +5,12 @@ from .choice import ChoicePromptTemplate
 from .dummy import DummyPromptTemplate
 from .prefixed import PrefixedTemplate
 from .schema import Templatable, into_template
+from .z_base import (
+    ZBasePromptTemplate,
+    ZChatPromptTemplate,
+    ZPromptTemplate,
+    ZStringPromptTemplate,
+)
 
 __all__ = [
     "DummyPromptTemplate",
@@ -13,5 +19,9 @@ __all__ = [
     "PrefixedTemplate",
     "ChoicePromptTemplate",
     "Templatable",
+    "ZBasePromptTemplate",
+    "ZStringPromptTemplate",
+    "ZPromptTemplate",
+    "ZChatPromptTemplate",
     "into_template",
 ]

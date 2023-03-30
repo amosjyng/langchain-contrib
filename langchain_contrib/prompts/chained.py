@@ -2,12 +2,13 @@
 
 from typing import Any, List
 
-from langchain.prompts.base import BasePromptTemplate, StringPromptTemplate
+from langchain.prompts.base import BasePromptTemplate
 from langchain.schema import BaseMessage, PromptValue
 
 from langchain_contrib.utils import f_join, safe_inputs
 
 from .schema import Templatable, into_template
+from .z_base import ZStringPromptTemplate
 
 
 class ChainedPromptValue(PromptValue):
@@ -32,7 +33,7 @@ class ChainedPromptValue(PromptValue):
         return messages
 
 
-class ChainedPromptTemplate(StringPromptTemplate):
+class ChainedPromptTemplate(ZStringPromptTemplate):
     """A prompt template composed of multiple other prompt templates chained together.
 
     This is a StringPromptTemplate rather than a BasePromptTemplate to enable use in

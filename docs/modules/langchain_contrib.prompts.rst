@@ -44,6 +44,14 @@ langchain\_contrib.prompts.schema module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.prompts.z\_base module
+-----------------------------------------
+
+.. automodule:: langchain_contrib.prompts.z_base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

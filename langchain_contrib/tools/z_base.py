@@ -1,4 +1,4 @@
-"""Module defining a color-initialized tool."""
+"""Module defining a more flexible BaseTool."""
 from __future__ import annotations
 
 from typing import Any, Optional

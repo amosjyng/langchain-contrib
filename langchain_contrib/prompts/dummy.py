@@ -2,11 +2,12 @@
 
 from typing import Any, List
 
-from langchain.prompts.base import BasePromptTemplate
 from langchain.schema import PromptValue
 
+from .z_base import ZBasePromptTemplate
 
-class DummyPromptTemplate(BasePromptTemplate):
+
+class DummyPromptTemplate(ZBasePromptTemplate):
     """Dummy template for when you need a template but don't care for a real one."""
 
     input_variables: List[str] = []
