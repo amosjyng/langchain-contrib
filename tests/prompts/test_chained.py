@@ -1,6 +1,7 @@
 """Tests for chained prompt templates."""
 
 import pytest
+from langchain.prompts.base import StringPromptValue
 from langchain.prompts.chat import (
     ChatPromptTemplate,
     ChatPromptValue,
@@ -8,9 +9,9 @@ from langchain.prompts.chat import (
     SystemMessagePromptTemplate,
 )
 from langchain.prompts.prompt import PromptTemplate
-from langchain.schema import HumanMessage, SystemMessage
+from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
-from langchain_contrib.prompts.chained import ChainedPromptTemplate
+from langchain_contrib.prompts.chained import ChainedPromptTemplate, ChainedPromptValue
 
 
 def test_plain_string_chaining() -> None:
@@ -67,11 +68,14 @@ def test_chat_string_chaining() -> None:
             "I see you. I freeze. What do you do?",
         ],
     )
-    assert template.format_prompt(creature="grue") == ChatPromptValue(
-        messages=[
-            SystemMessage(content="You are roleplaying as a grue."),
-            HumanMessage(content="I see you. I freeze. What do you do?"),
-        ]
+    assert (
+        template.format_prompt(creature="grue").to_messages()
+        == ChatPromptValue(
+            messages=[
+                SystemMessage(content="You are roleplaying as a grue."),
+                HumanMessage(content="I see you. I freeze. What do you do?"),
+            ]
+        ).to_messages()
     )
 
 
@@ -85,11 +89,14 @@ def test_chat_message_template_chaining() -> None:
             "I see you. I freeze. What do you do?",
         ],
     )
-    assert template.format_prompt(creature="grue") == ChatPromptValue(
-        messages=[
-            SystemMessage(content="You are roleplaying as a grue."),
-            HumanMessage(content="I see you. I freeze. What do you do?"),
-        ]
+    assert (
+        template.format_prompt(creature="grue").to_messages()
+        == ChatPromptValue(
+            messages=[
+                SystemMessage(content="You are roleplaying as a grue."),
+                HumanMessage(content="I see you. I freeze. What do you do?"),
+            ]
+        ).to_messages()
     )
 
 
@@ -113,14 +120,64 @@ def test_multiple_chat_messages_chaining() -> None:
             ),
         ],
     )
-    assert template.format_prompt(
-        creature="grue", human_action="run away"
-    ) == ChatPromptValue(
-        messages=[
-            SystemMessage(content="You are roleplaying as a grue."),
-            HumanMessage(content="I run away."),
-            SystemMessage(
-                content="The human has made their move. What do you do in response?"
-            ),
-        ]
+    assert (
+        template.format_prompt(creature="grue", human_action="run away").to_messages()
+        == ChatPromptValue(
+            messages=[
+                SystemMessage(content="You are roleplaying as a grue."),
+                HumanMessage(content="I run away."),
+                SystemMessage(
+                    content="The human has made their move. What do you do in response?"
+                ),
+            ]
+        ).to_messages()
     )
+
+
+def test_prompt_value_chaining_to_string() -> None:
+    """Test that chained prompt values can be serialized to string."""
+    value = ChainedPromptValue(
+        joiner="\n",
+        subvalues=[
+            ChatPromptValue(
+                messages=[
+                    SystemMessage(content="You have access to Search."),
+                    AIMessage(content="What can I help with?"),
+                ]
+            ),
+            StringPromptValue(text="What is langchain-contrib?"),
+        ],
+    )
+
+    assert (
+        (value.to_string())
+        == """
+System: You have access to Search.
+AI: What can I help with?
+What is langchain-contrib?
+""".strip()
+    )
+
+
+def test_prompt_value_chaining_to_message() -> None:
+    """Test that chained prompt values can be serialized to messages."""
+    value = ChainedPromptValue(
+        joiner="\n",
+        subvalues=[
+            ChatPromptValue(
+                messages=[
+                    SystemMessage(content="You have access to Search."),
+                    AIMessage(content="What can I help with?"),
+                ]
+            ),
+            StringPromptValue(text="What is langchain-contrib?"),
+        ],
+    )
+
+    assert (value.to_messages()) == ChatPromptValue(
+        messages=[
+            SystemMessage(content="You have access to Search.", additional_kwargs={}),
+            AIMessage(content="What can I help with?", additional_kwargs={}),
+            HumanMessage(content="What is langchain-contrib?", additional_kwargs={}),
+        ]
+    ).to_messages()
