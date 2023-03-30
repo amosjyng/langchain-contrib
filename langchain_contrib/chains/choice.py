@@ -1,10 +1,16 @@
 """Chain that chooses and performs the next action."""
+from __future__ import annotations
+
 import json
-from typing import Callable, Dict, List, Mapping
+from typing import Any, Callable, Dict, List, Mapping
 
 from langchain.chains.base import Chain
+from langchain.input import get_color_mapping
+from langchain.tools.base import BaseTool
 
 from langchain_contrib.utils import safe_inputs
+
+from .tool import ToolChain
 
 
 class ChoiceChain(Chain):
@@ -36,6 +42,38 @@ class ChoiceChain(Chain):
     """Key for chosen chain inputs."""
     chain_outputs_key: str = "choice_outputs"
     """Key for chosen chain outputs."""
+
+    @classmethod
+    def from_tools(
+        cls,
+        choice_picker: Chain,
+        tools: List[BaseTool],
+        excluded_colors: List[str] = ["green"],
+        verbose: bool = False,
+        **kwargs: Any,
+    ) -> ChoiceChain:
+        """Construct a ChoiceChain from tools.
+
+        This also assigns colors to each tool.
+        """
+        from langchain_contrib.tools import ZBaseTool
+
+        color_mapping = get_color_mapping(
+            items=[str(i) for i in range(len(tools))],
+            excluded_colors=excluded_colors,
+        )
+        wrapped_tools = [
+            ZBaseTool.from_tool(
+                base_tool=tool, color=color_mapping[str(i)], verbose=verbose
+            )
+            for i, tool in enumerate(tools)
+        ]
+        choices = {
+            tool.name: ToolChain(tool=tool, verbose=False) for tool in wrapped_tools
+        }
+        return cls(
+            choice_picker=choice_picker, choices=choices, verbose=verbose, **kwargs
+        )
 
     @property
     def input_keys(self) -> List[str]:

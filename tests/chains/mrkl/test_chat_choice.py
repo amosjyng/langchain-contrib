@@ -19,7 +19,7 @@ async def test_chat_choice() -> Dict[str, str]:
     with current_directory():
         llm = ChatOpenAI()  # type: ignore
         tools = load_tools(["persistent_terminal"])
-        loop = MrklLoopChain.from_tools(llm=llm, tools=tools)
+        loop = MrklLoopChain.from_llm_and_tools(llm=llm, tools=tools)
         result = loop(
             {
                 "input": (

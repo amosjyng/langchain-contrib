@@ -16,7 +16,7 @@ class MrklLoopChain(ChoiceChain):
     """Chain executing one single iteration of the MRKL agent."""
 
     @classmethod
-    def from_tools(
+    def from_llm_and_tools(
         cls,
         llm: BaseLanguageModel,
         tools: List[BaseTool],

@@ -3,9 +3,11 @@
 from typing import Dict
 
 import pytest
+from langchain.tools.python.tool import PythonREPLTool
 
-from langchain_contrib.chains import ChoiceChain
+from langchain_contrib.chains import ChoiceChain, ToolChain
 from langchain_contrib.chains.testing import FakeChain, FakePicker
+from langchain_contrib.tools import TerminalTool, ZBaseTool
 
 
 def test_invalid_choice() -> None:
@@ -108,3 +110,31 @@ def test_extra_arguments() -> None:
     )
     with pytest.raises(KeyError):
         choices({})
+
+
+def test_tools() -> None:
+    """Test that the ChoiceChain can be loaded and run from tools."""
+    chain = ChoiceChain.from_tools(
+        FakePicker(input_key="choice"),
+        [PythonREPLTool(), TerminalTool()],  # type: ignore
+        verbose=True,
+    )
+    assert chain({"choice": "Python REPL", "action_input": "print(2 ** 16)"}) == {
+        "choice": "Python REPL",
+        "action_input": "print(2 ** 16)",
+        "action_result": "65536\n",
+    }
+
+
+def test_tool_colors() -> None:
+    """Test that the ChoiceChain sets tool colors properly."""
+    chain = ChoiceChain.from_tools(
+        FakePicker(input_key="choice"),
+        [PythonREPLTool(), TerminalTool()],  # type: ignore
+    )
+    colors = set()
+    for choice in chain.choices.values():
+        assert isinstance(choice, ToolChain)
+        tool = choice.tool
+        assert isinstance(tool, ZBaseTool)
+        colors.add(tool.color)
