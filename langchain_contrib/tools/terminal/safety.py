@@ -82,4 +82,4 @@ Your choice: """.lstrip(),
                 ),
             },
         )
-        return review_chain(inputs, return_only_outputs=True)
+        return review_chain(inputs, return_only_outputs=False)

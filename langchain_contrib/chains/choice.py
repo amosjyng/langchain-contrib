@@ -1,14 +1,13 @@
 """Chain that chooses and performs the next action."""
-from abc import ABC
+import json
 from typing import Callable, Dict, List, Mapping
 
 from langchain.chains.base import Chain
-from pydantic import BaseModel
 
 from langchain_contrib.utils import safe_inputs
 
 
-class ChoiceChain(Chain, BaseModel, ABC):
+class ChoiceChain(Chain):
     """Chain that asks the LLM for a decision and executes it."""
 
     choice_picker: Chain
@@ -28,6 +27,15 @@ class ChoiceChain(Chain, BaseModel, ABC):
     """choice_picker output key that tells us which choice was picked."""
     ignore_keys: List[str] = []
     """Keys that will be returned in final output, but not passed on to chosen chain."""
+    emit_io_info: bool = False
+    """If true, also returns input and output dicts for the chosen chain.
+
+    Outputs will be returned in JSON form to preserve string function signatures.
+    """
+    chain_inputs_key: str = "choice_inputs"
+    """Key for chosen chain inputs."""
+    chain_outputs_key: str = "choice_outputs"
+    """Key for chosen chain outputs."""
 
     @property
     def input_keys(self) -> List[str]:
@@ -37,7 +45,8 @@ class ChoiceChain(Chain, BaseModel, ABC):
     @property
     def output_keys(self) -> List[str]:
         """Possible output keys produced by this chain."""
-        all_keys = set(self.choice_picker.output_keys)
+        all_keys = {self.chain_inputs_key, self.chain_outputs_key}
+        all_keys.update(self.choice_picker.output_keys)
         for choice in self.choices.values():
             all_keys.update(choice.output_keys)
         return list(all_keys)
@@ -50,32 +59,51 @@ class ChoiceChain(Chain, BaseModel, ABC):
 
     def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
         """Run the logic of this chain and return the output."""
+        # Get picker output
         raw_picker_output = self.choice_picker(inputs, return_only_outputs=True)
+        if self.choice_key not in raw_picker_output:
+            raise KeyError(f"Choice-picking chain did not emit '{self.choice_key}'")
         ignored_output = {
             k: v for k, v in raw_picker_output.items() if k in self.ignore_keys
         }
         real_raw_output = {
             k: v for k, v in raw_picker_output.items() if k not in self.ignore_keys
         }
-
         picker_output = self.prep_picker_output(real_raw_output)
         if self.choice_key not in picker_output:
-            raise KeyError(f"Choice-picking chain did not emit '{self.choice_key}'")
+            raise KeyError(f"Picker output prepper did not emit '{self.choice_key}'")
+
+        # Figure out choice
         choice = picker_output.pop(self.choice_key)
         assert isinstance(choice, str), f"Choice '{choice}' is not a str"
         if choice not in self.choices:
             raise KeyError(f"Choice picked does not exist: '{choice}'")
         chosen_chain = self.choices[choice]
+
+        # Massage picker output into chosen chain inputs
         unused_args = picker_output.keys() - chosen_chain.input_keys
         if unused_args:
             raise KeyError(f"Extra input keys for choice: {unused_args}")
-
         full_inputs = {**inputs, **picker_output}
         chain_inputs = safe_inputs(chosen_chain, full_inputs)
-        chain_output = chosen_chain(chain_inputs)
-        return {
+
+        # Return chosen chain outputs
+        chain_outputs = chosen_chain(chain_inputs, return_only_outputs=True)
+        result = {
             self.choice_key: choice,
             **ignored_output,
             **picker_output,
-            **chain_output,
+            **chain_outputs,
         }
+        if self.emit_io_info:
+            result[self.chain_inputs_key] = json.dumps(chain_inputs)
+            result[self.chain_outputs_key] = json.dumps(chain_outputs)
+        return result
+
+    def chosen_inputs(self, outputs: Dict[str, str]) -> Dict[str, str]:
+        """Extract the inputs to the chosen chain from ChoiceChain output."""
+        return json.loads(outputs[self.chain_inputs_key])
+
+    def chosen_outputs(self, outputs: Dict[str, str]) -> Dict[str, str]:
+        """Extract the outputs from the chosen chain from ChoiceChain output."""
+        return json.loads(outputs[self.chain_outputs_key])
