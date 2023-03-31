@@ -52,11 +52,9 @@ class ZBasePromptTemplate(BasePromptTemplate):
         cls, base_template: BasePromptTemplate, **kwargs: Any
     ) -> ZBasePromptTemplate:
         """Wrap around a base template."""
-        return cls(
-            base_template=base_template,
-            input_variables=base_template.input_variables,
-            **kwargs,
-        )
+        if "input_variables" not in kwargs:
+            kwargs["input_variables"] = base_template.input_variables
+        return cls(base_template=base_template, **kwargs)
 
     def format(self, **kwargs: Any) -> str:
         """Format prompt template as a string."""

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Dict, List, Tuple, Type
+from typing import Dict, List, Optional, Tuple
 
 from langchain.chains.base import Chain
 from langchain.llms.base import BaseLLM
@@ -37,10 +37,16 @@ class MrklPickActionChain(Chain):
         cls,
         llm: BaseLanguageModel,
         tools: List[BaseTool],
-        prompt_selector: Type[MrklPromptSelector] = MrklPromptSelector,
+        prompt: Optional[BasePromptTemplate] = None,
+        embed_scratchpad: bool = True,
     ) -> MrklPickActionChain:
         """Instantiate the MRKL action chain from a list of tools."""
-        prompt = prompt_selector.from_tools(tools=tools).get_prompt(llm)
+        if prompt is None:
+            prompt = (
+                MrklPromptSelector()
+                .get_custom_prompt(llm, embed_scratchpad=embed_scratchpad)
+                .permissive_partial(tools=tools)
+            )
         return cls(llm=llm, prompt=prompt)
 
     @property

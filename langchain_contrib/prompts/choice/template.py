@@ -4,12 +4,16 @@ from __future__ import annotations
 from typing import Any, Callable, Generic, List, Sequence, TypeVar, Union
 
 from langchain.prompts.base import BasePromptTemplate
-from langchain.prompts.chat import BaseMessagePromptTemplate, ChatPromptTemplate
-from langchain.prompts.prompt import PromptTemplate
+from langchain.prompts.chat import BaseMessagePromptTemplate
 from langchain.schema import BaseMessage
 from pydantic import Field
 
-from langchain_contrib.prompts.z_base import DefaultsTo, ZBasePromptTemplate
+from langchain_contrib.prompts.z_base import (
+    DefaultsTo,
+    ZBasePromptTemplate,
+    ZChatPromptTemplate,
+    ZPromptTemplate,
+)
 from langchain_contrib.utils import f_join
 
 from .prompt_value import BaseChoicePrompt
@@ -88,7 +92,7 @@ class ChoicePromptTemplate(ZBasePromptTemplate, Generic[T]):
     @classmethod
     def from_template(cls, template: str, **kwargs: Any) -> ChoicePromptTemplate:
         """Load a ChoicePromptTemplate from a text template."""
-        base_template = PromptTemplate.from_template(template)
+        base_template = ZPromptTemplate.from_template(template)
         return cls.from_base_template(base_template=base_template, **kwargs)
 
     @classmethod
@@ -98,7 +102,7 @@ class ChoicePromptTemplate(ZBasePromptTemplate, Generic[T]):
         **kwargs: Any,
     ) -> ChoicePromptTemplate:
         """Load a ChoicePromptTemplate from message templates."""
-        base_template = ChatPromptTemplate.from_messages(messages)
+        base_template = ZChatPromptTemplate.from_messages(messages)
         return cls.from_base_template(base_template=base_template, **kwargs)
 
     def permissive_partial(self, **kwargs: Any) -> ChoicePromptTemplate:
