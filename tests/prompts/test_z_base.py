@@ -8,6 +8,8 @@ from langchain.prompts.chat import ChatPromptValue, SystemMessagePromptTemplate
 from langchain.schema import PromptValue, SystemMessage
 
 from langchain_contrib.prompts import (
+    ChainedPromptTemplate,
+    DefaultsTo,
     ZBasePromptTemplate,
     ZChatPromptTemplate,
     ZPromptTemplate,
@@ -70,9 +72,36 @@ def test_partial_fn() -> None:
         return [3]
 
     z_base = ZPromptTemplate.from_template("result={result}")
-    assert isinstance(z_base, ZBasePromptTemplate)
     partial = z_base.permissive_partial(result=_partial_fn)
     assert partial.format() == "result=[3]"
+
+
+def test_default_redirect() -> None:
+    """Check that the value can be grabbed from another key."""
+    z_base = ZPromptTemplate.from_template("foo={foo}; also foo={bar}")
+    partial = z_base.permissive_partial(bar=DefaultsTo("foo"))
+    assert partial.format(foo="foo") == "foo=foo; also foo=foo"
+
+
+def test_default_redirect_nested() -> None:
+    """Test the docs example of nesting chained prompts."""
+    product = ZPromptTemplate.from_template("I went to buy a {product}.")
+    fruit = ZPromptTemplate.from_template("I ate the {fruit}.")
+    chained = ChainedPromptTemplate(subprompts=[product, fruit], joiner=" ")
+    partial = chained.permissive_partial(product=DefaultsTo("fruit"))
+    assert partial.format(fruit="apple") == "I went to buy a apple. I ate the apple."
+
+
+def test_default_redirect_override() -> None:
+    """Test that key defaults can be overridden."""
+    product = ZPromptTemplate.from_template("I went to buy a {product}.")
+    fruit = ZPromptTemplate.from_template("I ate the {fruit}.")
+    chained = ChainedPromptTemplate(subprompts=[product, fruit], joiner=" ")
+    partial = chained.permissive_partial(product=DefaultsTo("fruit"))
+    assert (
+        partial.format(product="banana", fruit="apple")
+        == "I went to buy a banana. I ate the apple."
+    )
 
 
 def test_chat_partials() -> None:

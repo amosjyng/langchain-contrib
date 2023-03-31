@@ -134,6 +134,16 @@ def test_multiple_chat_messages_chaining() -> None:
     )
 
 
+def test_partials() -> None:
+    """Test that chained prompt templates supports partials."""
+    template = ChainedPromptTemplate(
+        subprompts=["This is {foo}.", "That is {bar}."], joiner=" "
+    )
+    partial = template.permissive_partial(foo="foo")
+    assert "foo" in partial.permissive_partial_variables
+    assert partial.format(bar="bar") == "This is foo. That is bar."
+
+
 def test_prompt_value_chaining_to_string() -> None:
     """Test that chained prompt values can be serialized to string."""
     value = ChainedPromptValue(

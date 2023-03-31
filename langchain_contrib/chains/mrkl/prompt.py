@@ -16,7 +16,7 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.tools.base import BaseTool
 from pydantic import BaseModel, Extra
 
-from langchain_contrib.prompts import ChoicePromptTemplate
+from langchain_contrib.prompts import ChoicePromptTemplate, DefaultsTo
 from langchain_contrib.prompts.choice import get_simple_joiner
 
 
@@ -40,7 +40,7 @@ class BaseMrklPrompt(BaseModel, ABC):
         """Return a ChoicePromptTemplate for these tools."""
         tool_names_template = ChoicePromptTemplate.from_base_template(
             base_template=self.base_prompt,
-            choice_format_key="tool_names",
+            choice_format_key="tools",
             choice_serializer=lambda tool: tool.name,
             choices_formatter=get_simple_joiner(),
         )
@@ -51,8 +51,8 @@ class BaseMrklPrompt(BaseModel, ABC):
             choices_formatter=get_simple_joiner("\n"),
         )
         return tool_descriptions_template.permissive_partial(
-            tool_names=self.tools,
-            tool_descriptions=self.tools,
+            tools=self.tools,
+            tool_descriptions=DefaultsTo("tools"),
         )
 
 
@@ -68,7 +68,7 @@ Use the following format:
 
 Question: the input question you must answer
 Thought: you should always think about what to do
-Action: the action to take, should be one of [{tool_names}]
+Action: the action to take, should be one of [{tools}]
 Action Input: the input to the action
 Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
@@ -97,7 +97,7 @@ Answer the following questions as best you can. You have access to the following
 The way you use the tools is by specifying a json blob.
 Specifically, this json should have a `action` key (with the name of the tool to use) and a `action_input` key (with the input to the tool going here).
 
-The only values that should be in the "action" field are: {tool_names}
+The only values that should be in the "action" field are: {tools}
 
 The $JSON_BLOB should only contain a SINGLE action, do NOT return a list of multiple actions. Here is an example of a valid $JSON_BLOB:
 

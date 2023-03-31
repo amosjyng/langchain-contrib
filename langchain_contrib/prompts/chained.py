@@ -53,21 +53,18 @@ class ChainedPromptTemplate(ZStringPromptTemplate):
         subprompts can be passed in as just plain strings for convenience.
         """
         prompts = [into_template(p) for p in subprompts]
-        input_variables = list(
+        kwargs["joiner"] = joiner
+        kwargs["subprompts"] = prompts
+        kwargs["input_variables"] = list(
             set([var for subprompt in prompts for var in subprompt.input_variables])
         )
-        super().__init__(
-            input_variables=input_variables,
-            joiner=joiner,  # type: ignore
-            subprompts=prompts,  # type: ignore
-            **kwargs,
-        )
+        super().__init__(**kwargs)
 
     def format(self, **kwargs: Any) -> str:
         """Format the prompt with the inputs."""
         return self.format_prompt(**kwargs).to_string()
 
-    def format_prompt(self, **kwargs: Any) -> PromptValue:
+    def _format_prompt(self, **kwargs: Any) -> PromptValue:
         """Format each series of prompts with the given inputs."""
         unused_args = set(kwargs.keys())
         values: List[PromptValue] = []

@@ -9,7 +9,7 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.schema import BaseMessage
 from pydantic import Field
 
-from langchain_contrib.prompts.z_base import ZBasePromptTemplate
+from langchain_contrib.prompts.z_base import DefaultsTo, ZBasePromptTemplate
 from langchain_contrib.utils import f_join
 
 from .prompt_value import BaseChoicePrompt
@@ -107,7 +107,11 @@ class ChoicePromptTemplate(ZBasePromptTemplate, Generic[T]):
         Permissive version that allows for arbitrary input types.
         """
         if self.choice_format_key in kwargs:
-            self._check_choices(kwargs[self.choice_format_key])
+            choices = kwargs[self.choice_format_key]
+            assert isinstance(choices, list) or isinstance(choices, DefaultsTo), (
+                "Choices must be passed in as list, but is instead "
+                f"{type(choices).__name__}: {choices}"
+            )
 
         result = super().permissive_partial(**kwargs)
         assert isinstance(result, ChoicePromptTemplate)
@@ -117,29 +121,24 @@ class ChoicePromptTemplate(ZBasePromptTemplate, Generic[T]):
     def _prompt_type(self) -> str:
         return "choice"
 
-    def _check_choices(self, choices: Any) -> List[T]:
-        """Check that choices are a list."""
-        assert isinstance(choices, list), (
-            "Choices must be passed in as list, but is instead "
-            f"{type(choices).__name__}: {choices}"
-        )
-        return choices
-
     def format(self, **kwargs: Any) -> str:
         """Format the prompt with the inputs."""
         return self.format_prompt(**kwargs).to_string()
 
     def format_prompt(self, **kwargs: Any) -> BaseChoicePrompt:
         """Format the prompt while preserving the choices."""
-        kwargs = self._combined_kwargs(kwargs)
+        kwargs = self._merge_partial_and_user_variables(**kwargs)
 
         if self.choice_format_key not in kwargs:
             raise ValueError(
                 f"Choice key '{self.choice_format_key}' not in args: {kwargs}"
             )
-        choices = self._check_choices(kwargs[self.choice_format_key])
+        choices = kwargs[self.choice_format_key]
+        assert isinstance(choices, list), (
+            "Choices must be passed in as list, but is instead "
+            f"{type(choices).__name__}: {choices}"
+        )
         str_choices = [self.choice_serializer(c) for c in choices]
-        kwargs = self._prep_partials(kwargs)
         kwargs[self.choice_format_key] = self.choices_formatter(str_choices)
 
         assert (

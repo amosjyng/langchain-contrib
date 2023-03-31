@@ -13,7 +13,23 @@ from langchain.prompts.base import (
 from langchain.prompts.chat import ChatPromptTemplate
 from langchain.prompts.prompt import PromptTemplate
 from langchain.schema import PromptValue
-from pydantic import Field, root_validator
+from pydantic import BaseModel, Extra, Field, root_validator
+
+
+class DefaultsTo(BaseModel):
+    """Marks one prompt key as defaulting to another one."""
+
+    default_key: str
+    """Default key to get prompt value from."""
+
+    class Config:
+        """Configuration for this pydantic object."""
+
+        extra = Extra.forbid
+
+    def __init__(self, default_key: str, **kwargs: Any) -> None:
+        """Create a new DefaultTo partial value."""
+        super().__init__(default_key=default_key, **kwargs)
 
 
 class ZBasePromptTemplate(BasePromptTemplate):
@@ -98,10 +114,15 @@ class ZBasePromptTemplate(BasePromptTemplate):
     def _prep_partials(self, kwargs: Dict[str, Any]) -> Any:
         """Update the kwargs."""
 
-        def eval_callable(value: Any) -> Any:
-            return value() if callable(value) else value
+        def eval_partial(value: Any) -> Any:
+            if callable(value):
+                return value()
+            elif isinstance(value, DefaultsTo):
+                return kwargs[value.default_key]
+            else:
+                return value
 
-        return {k: eval_callable(v) for k, v in kwargs.items()}
+        return {k: eval_partial(v) for k, v in kwargs.items()}
 
     def _combined_kwargs(self, kwargs: Dict[str, Any]) -> Dict[str, Any]:
         """Combine all kwargs into one dict."""
@@ -124,6 +145,13 @@ class ZStringPromptTemplate(ZBasePromptTemplate, StringPromptTemplate):
 
 class ZPromptTemplate(ZBasePromptTemplate, PromptTemplate):
     """A version of PromptTemplate with extended flexibility."""
+
+    @classmethod
+    def from_template(cls, template: str) -> ZPromptTemplate:
+        """Load a prompt template from a template."""
+        result = super().from_template(template)
+        assert isinstance(result, ZPromptTemplate)
+        return result
 
     def _format_prompt(self, **kwargs: Any) -> PromptValue:
         return StringPromptValue(text=PromptTemplate.format(self, **kwargs))

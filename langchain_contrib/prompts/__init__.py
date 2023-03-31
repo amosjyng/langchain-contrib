@@ -6,6 +6,7 @@ from .dummy import DummyPromptTemplate
 from .prefixed import PrefixedTemplate
 from .schema import Templatable, into_template
 from .z_base import (
+    DefaultsTo,
     ZBasePromptTemplate,
     ZChatPromptTemplate,
     ZPromptTemplate,
@@ -23,5 +24,6 @@ __all__ = [
     "ZStringPromptTemplate",
     "ZPromptTemplate",
     "ZChatPromptTemplate",
+    "DefaultsTo",
     "into_template",
 ]
