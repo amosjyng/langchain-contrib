@@ -21,6 +21,9 @@ docs:
 	rm -rf docs/modules/
 	poetry run sphinx-apidoc -f -o docs/modules/ langchain_contrib
 
+tmux:
+	./tmux.sh
+
 clean:
 # https://stackoverflow.com/a/41386937/257583
 	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
