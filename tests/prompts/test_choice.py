@@ -20,10 +20,12 @@ def test_regular_string_choice() -> None:
     colors = ["red", "green", "blue"]
     template = ChoicePromptTemplate.from_template(
         "This {product} is available in {choices}. Which color should I pick?",
-        choices=colors,
     )
     assert (
-        template.format(product="dress")
+        template.format(
+            product="dress",
+            choices=colors,
+        )
         == "This dress is available in red, green, or blue. Which color should I pick?"
     )
 
@@ -33,10 +35,12 @@ def test_binary_string_choice() -> None:
     colors = ["red", "green"]
     template = ChoicePromptTemplate.from_template(
         "This {product} is available in {choices}. Which color should I pick?",
-        choices=colors,
     )
     assert (
-        template.format(product="dress")
+        template.format(
+            product="dress",
+            choices=colors,
+        )
         == "This dress is available in red or green. Which color should I pick?"
     )
 
@@ -46,10 +50,12 @@ def test_unary_string_choice() -> None:
     colors = ["red"]
     template = ChoicePromptTemplate.from_template(
         "This {product} is available in {choices}. Which color should I pick?",
-        choices=colors,
     )
     assert (
-        template.format(product="dress")
+        template.format(
+            product="dress",
+            choices=colors,
+        )
         == "This dress is available in red. Which color should I pick?"
     )
 
@@ -59,9 +65,11 @@ def test_is_choice_prompt_value() -> None:
     colors = ["red", "green", "blue"]
     template = ChoicePromptTemplate.from_template(
         "This {product} is available in {choices}. Which color should I pick?",
+    )
+    prompt_value = template.format(
+        product="dress",
         choices=colors,
     )
-    prompt_value = template.format(product="dress")
     assert isinstance(prompt_value, ChoiceStr)
     assert prompt_value.choices == colors
 
@@ -78,9 +86,11 @@ def test_regular_chat_choice() -> None:
                 "This {product} is available in {choices}. Which color should I pick?"
             ),
         ],
-        choices=colors,
     )
-    assert template.format_prompt(product="dress").to_messages() == [
+    assert template.format_prompt(
+        product="dress",
+        choices=colors,
+    ).to_messages() == [
         SystemMessage(content="You are helping the user pick a dress."),
         HumanMessage(
             content=(
@@ -96,11 +106,13 @@ def test_oxford_and() -> None:
     colors = ["red", "green"]
     template = ChoicePromptTemplate.from_template(
         "This {product} is available in {choices}. Which color should I pick?",
-        choices=colors,
         choices_formatter=get_oxford_comma_formatter("and"),
     )
     assert (
-        template.format(product="dress")
+        template.format(
+            product="dress",
+            choices=colors,
+        )
         == "This dress is available in red and green. Which color should I pick?"
     )
 
@@ -110,12 +122,26 @@ def test_edit_after_creation() -> None:
     colors = ["red", "green"]
     template = ChoicePromptTemplate.from_template(
         "This {product} is available in {choices}. Which color should I pick?",
-        choices=colors,
     )
     template.choices_formatter = get_oxford_comma_formatter("and")
     assert (
-        template.format(product="dress")
+        template.format(
+            product="dress",
+            choices=colors,
+        )
         == "This dress is available in red and green. Which color should I pick?"
+    )
+
+
+def test_partials() -> None:
+    """Test using the template with partials."""
+    colors = ["red", "green"]
+    template = ChoicePromptTemplate.from_template(
+        "This {product} is available in {choices}. Which color should I pick?",
+    ).permissive_partial(choices=colors)
+    assert (
+        template.format(product="dress")
+        == "This dress is available in red or green. Which color should I pick?"
     )
 
 
@@ -127,11 +153,12 @@ def test_choices_list() -> None:
 {choices}
 
 Which will you pick?""",
-        choices=["Page a human", "Retry", "Proceed"],
         choices_formatter=list_of_choices,
     )
     assert (
-        template.format()
+        template.format(
+            choices=["Page a human", "Retry", "Proceed"],
+        )
         == """Your available actions are
 
 1. Page a human
@@ -147,11 +174,10 @@ def test_simple_joiner() -> None:
     colors = ["red", "green"]
     template = ChoicePromptTemplate.from_template(
         "This {product} is available in {choices}. Which color should I pick?",
-        choices=colors,
         choices_formatter=get_simple_joiner(),
     )
     assert (
-        template.format(product="car")
+        template.format(product="car", choices=colors)
         == "This car is available in red, green. Which color should I pick?"
     )
 
@@ -160,11 +186,13 @@ def test_custom_key() -> None:
     """Test producing a custom key."""
     template = ChoicePromptTemplate.from_template(
         "Your task is to {task}. You have access to {tool_names}. Begin.",
-        choices=["Google", "a Bash terminal"],
         choices_formatter=get_oxford_comma_formatter("and"),
         choice_format_key="tool_names",
     )
-    assert template.format(task="take over the world") == (
+    assert template.format(
+        task="take over the world",
+        tool_names=["Google", "a Bash terminal"],
+    ) == (
         "Your task is to take over the world. You have access to Google and a "
         "Bash terminal. Begin."
     )

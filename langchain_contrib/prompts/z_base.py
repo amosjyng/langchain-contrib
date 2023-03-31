@@ -95,8 +95,11 @@ class ZBasePromptTemplate(BasePromptTemplate):
         }
         return type(self)(**prompt_dict)
 
-    def _partial_to_str(self, partial: Any) -> str:
-        """Convert a partial value of any type into a str."""
+    def _partial_to_str(self, key: str, partial: Any) -> str:
+        """Convert a partial value of any type into a str.
+
+        This takes in a key as well to allow for key-based partial conversions.
+        """
         if isinstance(partial, str):
             return partial
         elif callable(partial):
@@ -104,16 +107,19 @@ class ZBasePromptTemplate(BasePromptTemplate):
         else:
             return str(partial)
 
-    def _merge_partial_and_user_variables(self, **kwargs: Any) -> Dict[str, Any]:
-        # Get partial params:
-        all_partial_kwargs = {
+    def _combined_kwargs(self, **kwargs: Any) -> Dict[str, Any]:
+        """Combine all kwargs into one dict."""
+        return {
             **self.partial_variables,
             **self.permissive_partial_variables,
+            **kwargs,
         }
-        str_partial_kwargs = {
-            k: self._partial_to_str(v) for k, v in all_partial_kwargs.items()
-        }
-        return {**str_partial_kwargs, **kwargs}
+
+    def _merge_partial_and_user_variables(self, **kwargs: Any) -> Dict[str, Any]:
+        """Merge all partials, including permissive ones."""
+        combined_kwargs = self._combined_kwargs(**kwargs)
+        str_kwargs = {k: self._partial_to_str(k, v) for k, v in combined_kwargs.items()}
+        return str_kwargs
 
 
 class ZStringPromptTemplate(ZBasePromptTemplate, StringPromptTemplate):

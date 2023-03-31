@@ -53,10 +53,11 @@ class BaseMrklPrompt(BaseModel, ABC):
         """Return a ChoicePromptTemplate for these tools."""
         partial_choice = ChoicePromptTemplate.from_base_template(
             base_template=self.base_prompt,
-            choices=self.tool_names,
             choice_format_key="tool_names",
+            choice_serializer=lambda x: x.name,
             choices_formatter=get_simple_joiner(),
-        ).partial(
+        ).permissive_partial(
+            tool_names=self.tools,
             tool_descriptions=self.tool_descriptions,
         )
         assert isinstance(partial_choice, ChoicePromptTemplate)

@@ -54,8 +54,7 @@ class SafeTerminalChain(Chain):
 The LLM would like to run the command `{command}`. You can choose to {choices}.
 
 Your choice: """.lstrip(),
-            choices=[self.proceed_choice, self.edit_command_choice],
-        )
+        ).permissive_partial(choices=[self.proceed_choice, self.edit_command_choice])
 
     @property
     def edit_command_prompt(self) -> BasePromptTemplate:
