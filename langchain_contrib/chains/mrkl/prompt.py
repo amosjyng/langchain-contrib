@@ -18,7 +18,6 @@ from pydantic import BaseModel, Extra
 
 from langchain_contrib.prompts import ChoicePromptTemplate
 from langchain_contrib.prompts.choice import get_simple_joiner
-from langchain_contrib.utils import f_join
 
 
 class BaseMrklPrompt(BaseModel, ABC):
@@ -37,31 +36,24 @@ class BaseMrklPrompt(BaseModel, ABC):
     def base_prompt(self) -> BasePromptTemplate:
         """The basis for the MRKL prompt."""
 
-    @property
-    def tool_names(self) -> List[str]:
-        """Just the names of the tools, without their descriptions."""
-        return [tool.name for tool in self.tools]
-
-    @property
-    def tool_descriptions(self) -> F:
-        """Descriptions of the tools and their usage."""
-        return f_join(
-            "\n", [F(f"{tool.name}: {tool.description}") for tool in self.tools]
-        )
-
     def template(self) -> ChoicePromptTemplate:
         """Return a ChoicePromptTemplate for these tools."""
-        partial_choice = ChoicePromptTemplate.from_base_template(
+        tool_names_template = ChoicePromptTemplate.from_base_template(
             base_template=self.base_prompt,
             choice_format_key="tool_names",
-            choice_serializer=lambda x: x.name,
+            choice_serializer=lambda tool: tool.name,
             choices_formatter=get_simple_joiner(),
-        ).permissive_partial(
-            tool_names=self.tools,
-            tool_descriptions=self.tool_descriptions,
         )
-        assert isinstance(partial_choice, ChoicePromptTemplate)
-        return partial_choice
+        tool_descriptions_template = ChoicePromptTemplate.from_base_template(
+            base_template=tool_names_template,
+            choice_format_key="tool_descriptions",
+            choice_serializer=lambda tool: F(f"{tool.name}: {tool.description}"),
+            choices_formatter=get_simple_joiner("\n"),
+        )
+        return tool_descriptions_template.permissive_partial(
+            tool_names=self.tools,
+            tool_descriptions=self.tools,
+        )
 
 
 class StringMrklPrompt(BaseMrklPrompt):

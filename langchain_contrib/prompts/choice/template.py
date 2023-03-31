@@ -131,7 +131,7 @@ class ChoicePromptTemplate(ZBasePromptTemplate, Generic[T]):
 
     def format_prompt(self, **kwargs: Any) -> BaseChoicePrompt:
         """Format the prompt while preserving the choices."""
-        kwargs = self._combined_kwargs(**kwargs)
+        kwargs = self._combined_kwargs(kwargs)
 
         if self.choice_format_key not in kwargs:
             raise ValueError(
@@ -139,8 +139,8 @@ class ChoicePromptTemplate(ZBasePromptTemplate, Generic[T]):
             )
         choices = self._check_choices(kwargs[self.choice_format_key])
         str_choices = [self.choice_serializer(c) for c in choices]
+        kwargs = self._prep_partials(kwargs)
         kwargs[self.choice_format_key] = self.choices_formatter(str_choices)
-        kwargs = self._merge_partial_and_user_variables(**kwargs)
 
         assert (
             self.base_template is not None
