@@ -1,12 +1,13 @@
 """Make Terminal available in langchain Tool form."""
 
-from langchain.tools.base import BaseTool
 from pydantic import Field
+
+from langchain_contrib.tools.z_base import ZBaseTool
 
 from .terminal import Terminal
 
 
-class TerminalTool(BaseTool):
+class TerminalTool(ZBaseTool):
     """Access to the Terminal in langchain's default Tool form."""
 
     name: str = "Terminal"

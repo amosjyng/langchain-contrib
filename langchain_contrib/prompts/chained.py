@@ -2,20 +2,38 @@
 
 from typing import Any, List
 
-from langchain.prompts.base import (
-    BasePromptTemplate,
-    StringPromptTemplate,
-    StringPromptValue,
-)
-from langchain.prompts.chat import ChatPromptValue
-from langchain.schema import PromptValue
+from langchain.prompts.base import BasePromptTemplate
+from langchain.schema import BaseMessage, PromptValue
 
 from langchain_contrib.utils import f_join, safe_inputs
 
 from .schema import Templatable, into_template
+from .z_base import ZStringPromptTemplate
 
 
-class ChainedPromptTemplate(StringPromptTemplate):
+class ChainedPromptValue(PromptValue):
+    """A prompt value consisting of smaller prompt values."""
+
+    joiner: str = ""
+    """How to join each prompt value together.
+
+    Only used when joining to_string.
+    """
+    subvalues: List[PromptValue]
+
+    def to_string(self) -> str:
+        """Join prompt values together as a single string."""
+        return f_join(self.joiner, [x.to_string() for x in self.subvalues])
+
+    def to_messages(self) -> List[BaseMessage]:
+        """Append all prompt values together as messages."""
+        messages = [
+            message for subvalue in self.subvalues for message in subvalue.to_messages()
+        ]
+        return messages
+
+
+class ChainedPromptTemplate(ZStringPromptTemplate):
     """A prompt template composed of multiple other prompt templates chained together.
 
     This is a StringPromptTemplate rather than a BasePromptTemplate to enable use in
@@ -35,21 +53,18 @@ class ChainedPromptTemplate(StringPromptTemplate):
         subprompts can be passed in as just plain strings for convenience.
         """
         prompts = [into_template(p) for p in subprompts]
-        input_variables = list(
+        kwargs["joiner"] = joiner
+        kwargs["subprompts"] = prompts
+        kwargs["input_variables"] = list(
             set([var for subprompt in prompts for var in subprompt.input_variables])
         )
-        super().__init__(
-            input_variables=input_variables,
-            joiner=joiner,  # type: ignore
-            subprompts=prompts,  # type: ignore
-            **kwargs,
-        )
+        super().__init__(**kwargs)
 
     def format(self, **kwargs: Any) -> str:
         """Format the prompt with the inputs."""
         return self.format_prompt(**kwargs).to_string()
 
-    def format_prompt(self, **kwargs: Any) -> PromptValue:
+    def _format_prompt(self, **kwargs: Any) -> PromptValue:
         """Format each series of prompts with the given inputs."""
         unused_args = set(kwargs.keys())
         values: List[PromptValue] = []
@@ -60,15 +75,7 @@ class ChainedPromptTemplate(StringPromptTemplate):
         if unused_args:
             raise KeyError(unused_args)
 
-        all_strings = all([isinstance(x, StringPromptValue) for x in values])
-        if all_strings:
-            text = f_join(self.joiner, [x.to_string() for x in values])
-            return StringPromptValue(text=text)
-        else:
-            messages = [
-                message for subvalue in values for message in subvalue.to_messages()
-            ]
-            return ChatPromptValue(messages=messages)
+        return ChainedPromptValue(joiner=self.joiner, subvalues=values)
 
     @property
     def _prompt_type(self) -> str:

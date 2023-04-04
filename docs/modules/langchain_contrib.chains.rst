@@ -20,6 +20,14 @@ langchain\_contrib.chains.choice module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.chains.dummy module
+--------------------------------------
+
+.. automodule:: langchain_contrib.chains.dummy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 langchain\_contrib.chains.testing module
 ----------------------------------------
 

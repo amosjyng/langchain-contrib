@@ -32,5 +32,5 @@ class ToolChain(Chain):
     def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
         """Run the tool for this chain."""
         tool_input = inputs[self.tool_input_key]
-        tool_output = self.tool.run(tool_input)
+        tool_output = self.tool.run(tool_input, observation_prefix="", llm_prefix="")
         return {self.tool_output_key: tool_output}

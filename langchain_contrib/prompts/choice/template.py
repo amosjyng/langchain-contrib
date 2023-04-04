@@ -1,14 +1,19 @@
 """Module that defines the choice prompt."""
 from __future__ import annotations
 
-from typing import Any, Callable, List, Sequence, Union
+from typing import Any, Callable, Generic, List, Sequence, TypeVar, Union
 
 from langchain.prompts.base import BasePromptTemplate
-from langchain.prompts.chat import BaseMessagePromptTemplate, ChatPromptTemplate
-from langchain.prompts.prompt import PromptTemplate
+from langchain.prompts.chat import BaseMessagePromptTemplate
 from langchain.schema import BaseMessage
 from pydantic import Field
 
+from langchain_contrib.prompts.z_base import (
+    DefaultsTo,
+    ZBasePromptTemplate,
+    ZChatPromptTemplate,
+    ZPromptTemplate,
+)
 from langchain_contrib.utils import f_join
 
 from .prompt_value import BaseChoicePrompt
@@ -49,16 +54,18 @@ def list_of_choices(choices: List[str]) -> str:
     return f_join("\n", [f"{i+1}. {choice}" for i, choice in enumerate(choices)])
 
 
-class ChoicePromptTemplate(BasePromptTemplate):
+T = TypeVar("T")
+
+
+class ChoicePromptTemplate(ZBasePromptTemplate, Generic[T]):
     """A wrapper prompt template for picking from a number of choices.
 
     This template preserves choice information in prompts.
     """
 
-    base_template: BasePromptTemplate
     """The base template that this class wraps around."""
-    choices: List[str]
-    """The list of choices to pick from."""
+    choice_serializer: Callable[[T], str] = lambda x: str(x)
+    """How to turn the choices into strings."""
     choices_formatter: ChoicesFormatter = Field(
         default_factory=get_oxford_comma_formatter
     )
@@ -75,53 +82,48 @@ class ChoicePromptTemplate(BasePromptTemplate):
 
     @classmethod
     def from_base_template(
-        cls, base_template: BasePromptTemplate, choices: List[str], **kwargs: Any
+        cls, base_template: BasePromptTemplate, **kwargs: Any
     ) -> ChoicePromptTemplate:
-        """Load a ChoicePromptTemplate from base templates."""
-        result = cls(
-            base_template=base_template,
-            input_variables=base_template.input_variables,
-            choices=choices,
-            **kwargs,
-        )
-
-        result.partial_variables = {
-            **result.partial_variables,
-            result.choice_format_key: result._no_args_formatter,
-        }
-        result.input_variables.remove(result.choice_format_key)
+        """Wrap around a base template."""
+        result = super().from_base_template(base_template=base_template, **kwargs)
+        assert isinstance(result, ChoicePromptTemplate)
         return result
 
     @classmethod
-    def from_template(
-        cls, template: str, choices: List[str], **kwargs: Any
-    ) -> ChoicePromptTemplate:
+    def from_template(cls, template: str, **kwargs: Any) -> ChoicePromptTemplate:
         """Load a ChoicePromptTemplate from a text template."""
-        base_template = PromptTemplate.from_template(template)
-        return cls.from_base_template(
-            base_template=base_template, choices=choices, **kwargs
-        )
+        base_template = ZPromptTemplate.from_template(template)
+        return cls.from_base_template(base_template=base_template, **kwargs)
 
     @classmethod
     def from_messages(
         cls,
         messages: Sequence[Union[BaseMessagePromptTemplate, BaseMessage]],
-        choices: List[str],
         **kwargs: Any,
     ) -> ChoicePromptTemplate:
         """Load a ChoicePromptTemplate from message templates."""
-        base_template = ChatPromptTemplate.from_messages(messages)
-        return cls.from_base_template(
-            base_template=base_template, choices=choices, **kwargs
-        )
+        base_template = ZChatPromptTemplate.from_messages(messages)
+        return cls.from_base_template(base_template=base_template, **kwargs)
+
+    def permissive_partial(self, **kwargs: Any) -> ChoicePromptTemplate:
+        """Return a partial of the prompt template.
+
+        Permissive version that allows for arbitrary input types.
+        """
+        if self.choice_format_key in kwargs:
+            choices = kwargs[self.choice_format_key]
+            assert isinstance(choices, list) or isinstance(choices, DefaultsTo), (
+                "Choices must be passed in as list, but is instead "
+                f"{type(choices).__name__}: {choices}"
+            )
+
+        result = super().permissive_partial(**kwargs)
+        assert isinstance(result, ChoicePromptTemplate)
+        return result
 
     @property
     def _prompt_type(self) -> str:
         return "choice"
-
-    def _no_args_formatter(self) -> str:
-        """No-argument choice formatter for partials."""
-        return self.choices_formatter(self.choices)
 
     def format(self, **kwargs: Any) -> str:
         """Format the prompt with the inputs."""
@@ -130,5 +132,21 @@ class ChoicePromptTemplate(BasePromptTemplate):
     def format_prompt(self, **kwargs: Any) -> BaseChoicePrompt:
         """Format the prompt while preserving the choices."""
         kwargs = self._merge_partial_and_user_variables(**kwargs)
+
+        if self.choice_format_key not in kwargs:
+            raise ValueError(
+                f"Choice key '{self.choice_format_key}' not in args: {kwargs}"
+            )
+        choices = kwargs[self.choice_format_key]
+        assert isinstance(choices, list), (
+            "Choices must be passed in as list, but is instead "
+            f"{type(choices).__name__}: {choices}"
+        )
+        str_choices = [self.choice_serializer(c) for c in choices]
+        kwargs[self.choice_format_key] = self.choices_formatter(str_choices)
+
+        assert (
+            self.base_template is not None
+        ), "ChoicePromptTemplate requires a base template to be provided"
         prompt = self.base_template.format_prompt(**kwargs)
-        return BaseChoicePrompt.from_prompt(prompt, choices=self.choices)
+        return BaseChoicePrompt.from_prompt(prompt, choices=str_choices)

@@ -44,3 +44,17 @@ class FakeChain(Chain):
         if self.inputs_to_outputs is None:
             return self.output
         return self.inputs_to_outputs(inputs)
+
+
+def FakePicker(input_key: str = "c", output_key: str = "choice") -> FakeChain:
+    """Create a fake chain that converts the input key to the output key.
+
+    This is a convenience function that allows you to specify arbitrary fake outputs
+    from arbitrary fake inputs without having to create a new FakeChain every time.
+    Especially useful for testing `ChoiceChain`s.
+    """
+    return FakeChain(
+        expected_inputs=[input_key],
+        expected_outputs=[output_key],
+        inputs_to_outputs=lambda inputs: {output_key: inputs[input_key]},
+    )

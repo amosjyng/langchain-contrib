@@ -12,6 +12,14 @@ Subpackages
 Submodules
 ----------
 
+langchain\_contrib.llms.dummy module
+------------------------------------
+
+.. automodule:: langchain_contrib.llms.dummy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 langchain\_contrib.llms.testing module
 --------------------------------------
 

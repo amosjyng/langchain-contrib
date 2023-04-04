@@ -32,11 +32,12 @@ def test_chat_prefix() -> None:
     final_template = get_terminal_prompt_template(
         prefix=SystemMessagePromptTemplate.from_template("Your task is to {task}.")
     )
-    assert final_template.format_prompt(
-        task="delete asdf.txt", shell="bash"
-    ) == ChatPromptValue(
-        messages=[
-            SystemMessage(content="Your task is to delete asdf.txt."),
-            HumanMessage(content="Enter in the bash command: "),
-        ]
+    assert (
+        final_template.format_prompt(task="delete asdf.txt", shell="bash").to_messages()
+        == ChatPromptValue(
+            messages=[
+                SystemMessage(content="Your task is to delete asdf.txt."),
+                HumanMessage(content="Enter in the bash command: "),
+            ]
+        ).to_messages()
     )

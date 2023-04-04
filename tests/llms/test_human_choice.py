@@ -22,6 +22,5 @@ def test_show_human_llm_menu() -> None:
 Your choices are: {choices}
 
 Pick the second one: """.lstrip(),
-        choices=["Red", "Orange", "Blue"],
     )
-    assert llm(choice.format()) == "Orange"
+    assert llm(choice.format(choices=["Red", "Orange", "Blue"])) == "Orange"
