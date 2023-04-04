@@ -145,9 +145,9 @@ class ZPromptTemplate(ZBasePromptTemplate, PromptTemplate):
     """A version of PromptTemplate with extended flexibility."""
 
     @classmethod
-    def from_template(cls, template: str) -> ZPromptTemplate:
+    def from_template(cls, template: str, **kwargs: Any) -> ZPromptTemplate:
         """Load a prompt template from a template."""
-        result = super().from_template(template)
+        result = super().from_template(template, **kwargs)
         assert isinstance(result, ZPromptTemplate)
         return result
 
