@@ -3,7 +3,7 @@
 from typing import Callable, Dict, List, Optional
 
 from langchain.chains.base import Chain
-from pydantic import Extra
+from pydantic import Extra, Field
 
 
 class FakeChain(Chain):
@@ -14,9 +14,9 @@ class FakeChain(Chain):
 
         extra = Extra.forbid
 
-    expected_inputs: List[str] = []
+    expected_inputs: List[str] = Field(default_factory=list)
     """List of input keys to expect."""
-    expected_outputs: List[str] = []
+    expected_outputs: List[str] = Field(default_factory=list)
     """List of output keys to expect.
 
     Not needed if `output` is defined.

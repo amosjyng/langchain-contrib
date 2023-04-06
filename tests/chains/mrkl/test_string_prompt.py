@@ -18,7 +18,10 @@ async def test_string_prompt() -> Dict[str, str]:
     with current_directory():
         llm = OpenAI(temperature=0)  # type: ignore
         tools = load_tools(["persistent_terminal"], llm=llm)
-        picker = MrklPickActionChain.from_tools(llm=llm, tools=tools)
+        picker = MrklPickActionChain.from_llm_and_tools(
+            llm=llm,
+            tools=tools,
+        )
         result = picker(
             {
                 "input": (

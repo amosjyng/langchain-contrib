@@ -1,0 +1,8 @@
+interactions:
+- request:
+    body: '{"cmd": "date"}'
+    headers: {}
+    method: POST
+    uri: tool://Terminal/_get_raw_shell_update
+  response: "date\r\nThu Apr  6 20:30:55 AEST 2023\r\nzamm$ "
+version: 1

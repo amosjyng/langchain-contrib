@@ -18,7 +18,9 @@ async def test_chat_prompt() -> Dict[str, str]:
     with current_directory():
         llm = ChatOpenAI()  # type: ignore
         tools = load_tools(["persistent_terminal"])
-        picker = MrklPickActionChain.from_tools(llm=llm, tools=tools)
+        picker = MrklPickActionChain.from_llm_and_tools(
+            llm=llm, tools=tools, embed_scratchpad=True
+        )
         result = picker(
             {
                 "input": (
