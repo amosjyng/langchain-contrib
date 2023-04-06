@@ -3,11 +3,10 @@
 from typing import Dict
 
 import pytest
-from langchain.agents import load_tools
 from langchain.chat_models.openai import ChatOpenAI
 
-import langchain_contrib.tools  # noqa: F401
 from langchain_contrib.chains.mrkl import MrklLoopChain
+from langchain_contrib.tools import load_tools
 from langchain_contrib.utils import current_directory
 
 vcr = pytest.importorskip("vcr_langchain")

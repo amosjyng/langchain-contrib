@@ -1,9 +1,9 @@
 """Test agent usage of terminal without vcr_langchain."""
 
-from langchain.agents import initialize_agent, load_tools
+from langchain.agents import initialize_agent
 
-import langchain_contrib.tools  # noqa: F401
 from langchain_contrib.llms.testing import FakeLLM
+from langchain_contrib.tools import load_tools
 from langchain_contrib.utils import current_directory
 
 
