@@ -1,5 +1,4 @@
 """Test MRKL agent decision execution for chat prompts."""
-import json
 from typing import Dict
 
 import pytest
@@ -68,10 +67,8 @@ Action Input: date
     )
     assert result["choice"] == "Terminal"
     assert result["thought"] == "I need to run date."
-    assert json.loads(result["choice_inputs"]) == {"action_input": "date"}
-    assert json.loads(result["choice_outputs"]) == {
-        "action_result": "Thu Apr  6 20:30:55 AEST 2023\n"
-    }
+    assert result.choice_inputs == {"action_input": "date"}
+    assert result.choice_outputs == {"action_result": "Thu Apr  6 20:30:55 AEST 2023\n"}
 
 
 def test_faked_final_action() -> None:
@@ -99,8 +96,8 @@ Final Answer: 8 PM.
     )
     assert result["choice"] == "Final Answer"
     assert result["thought"] == "I now know the time."
-    assert json.loads(result["choice_inputs"]) == {"action_input": "8 PM."}
-    assert json.loads(result["choice_outputs"]) == {"answer": "8 PM."}
+    assert result.choice_inputs == {"action_input": "8 PM."}
+    assert result.choice_outputs == {"answer": "8 PM."}
 
 
 if __name__ == "__main__":

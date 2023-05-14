@@ -87,16 +87,15 @@ def test_separated_io() -> None:
             "first": FakeChain(expected_inputs=["a_input"], output={"a": "one"}),
             "second": FakeChain(expected_inputs=["b_input"], output={"b": "two"}),
         },
-        emit_io_info=True,
     )
 
     first_results = choices({"c": "first"}, return_only_outputs=True)
-    assert choices.chosen_inputs(first_results) == {"a_input": "foo"}
-    assert choices.chosen_outputs(first_results) == {"a": "one"}
+    assert first_results.choice_inputs == {"a_input": "foo"}
+    assert first_results.choice_outputs == {"a": "one"}
 
     second_results = choices({"c": "second"}, return_only_outputs=True)
-    assert choices.chosen_inputs(second_results) == {"b_input": "bar"}
-    assert choices.chosen_outputs(second_results) == {"b": "two"}
+    assert second_results.choice_inputs == {"b_input": "bar"}
+    assert second_results.choice_outputs == {"b": "two"}
 
 
 def test_extra_arguments() -> None:
