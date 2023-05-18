@@ -20,7 +20,7 @@ def test_proceed() -> None:
         assert safe_terminal(llm("Execute a command")) == {
             "choice": "Proceed",
             "command": "date",
-            "output": "Fri Mar 24 16:26:49 AEDT 2023\n",
+            "output": "Fri Mar 24 16:26:49 AEDT 2023",
         }
 
 

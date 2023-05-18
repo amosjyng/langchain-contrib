@@ -57,9 +57,13 @@ class Terminal(BaseModel):
         os.environ["PS1"] = bash_prompt
         sh = pexpect.spawn("/bin/bash --norc", encoding="utf-8")
         time.sleep(init_delay)
+        # ignore any initial shell init messages by getting the shell prompt to display
+        # a second time
         sh.read_nonblocking(size=output_size)
-        sh.sendline('')
-        bash_prompt = sh.read_nonblocking(size=output_size)
+        sh.sendline()
+        time.sleep(init_delay)
+        # ignore initial \n char that we just sent
+        bash_prompt = sh.read_nonblocking(size=output_size)[1:]
         super().__init__(
             refresh_interval=refresh_interval,
             output_size=output_size,

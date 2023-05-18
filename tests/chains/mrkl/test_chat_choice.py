@@ -30,7 +30,7 @@ async def test_chat_choice() -> Dict[str, str]:
             },
             return_only_outputs=True,
         )
-        assert result["action_result"] == "dist/  docs/  langchain_contrib/  tests/\n"
+        assert result["action_result"] == "dist/  docs/  langchain_contrib/  tests/"
         return result
 
 

@@ -7,7 +7,7 @@ from langchain_contrib.utils import current_directory
 def test_terminal_simple_bash() -> None:
     """Test a simple bash command."""
     t = Terminal()
-    assert t.run_bash_command("ls Makefile") == "Makefile\n"
+    assert t.run_bash_command("ls Makefile") == "Makefile"
 
 
 def test_directory_change() -> None:
@@ -22,10 +22,10 @@ def test_directory_change() -> None:
 def test_tabbed_script() -> None:
     """Check that escaped tabbed output is captured."""
     t = Terminal()
-    assert t.run_bash_command("tests/resources/tabbed.sh") == "\\ta\n"
+    assert t.run_bash_command("tests/resources/tabbed.sh") == "\\ta"
 
 
 def test_tabbed_file() -> None:
     """Check that unescaped tab output is captured."""
     t = Terminal()
-    assert t.run_bash_command("cat tests/resources/tabbed.txt") == "\ta\n"
+    assert t.run_bash_command("cat tests/resources/tabbed.txt") == "\ta"

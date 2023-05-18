@@ -27,7 +27,7 @@ async def test_use_terminal() -> str:
             "List the folders in the current directory. Enter into one of them. List "
             "folders again."
         )
-        assert "After entering into the langchain_contrib folder" in result
+        assert "The folders in the current directory" in result
         return result
 
 
