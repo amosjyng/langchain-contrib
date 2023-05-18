@@ -24,7 +24,7 @@ interactions:
       content-type:
       - text/plain; charset=utf-8
       date:
-      - Thu, 16 Mar 2023 07:31:21 GMT
+      - Thu, 18 May 2023 02:12:31 GMT
       server:
       - uvicorn
     http_version: HTTP/1.1
@@ -60,35 +60,60 @@ interactions:
     uri: https://api.openai.com/v1/completions
   response:
     body:
-      string: '{"id":"cmpl-6ucMrnNMvKf3xng4tNqvOgewYNrmK","object":"text_completion","created":1678951873,"model":"text-davinci-003","choices":[{"text":"
-        I need to list the folders in the current directory, then enter into one of
-        them and list the folders again.\nAction: Terminal\nAction Input: ls","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":180,"completion_tokens":32,"total_tokens":212}}
-
-        '
+      string: !!binary |
+        H4sIAAAAAAAAA0TQTU/DMAyA4Tu/IvI5Qx376nKDA2IXtAMHxoemrHHXsNSOGhd1VPvvqNNg18ev
+        LMs9eAcGijqG0eLped09/JSvs0N9XFeP/i2s825Txc2Rc9DAuy8sBAwIdrItuI4BxTOBhqJBK+jA
+        jOf5dLKYLadLDTU7DJd85Oy3p8KPsmwy9BX7AhOY9/48BgNqpQjRKWHVJlRSoRJsak82DBZ8kjOW
+        HBw2SVlyCkmwUZ6EFRMqLoeivv2g+2I4zKiXy4Y/USuKrRgVEmjw5LADk2kIvI8N7xIYakPQUHry
+        qdo2aBMTGEjCEU6fGtpk9wimh9hwHWUrfEBKYMZ5puH6kX+/m2sQFhuuks1Pp5tfAAAA//8DAPkW
+        nl13AQAA
     headers:
-      Access-Control-Allow-Origin:
-      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 7c9093550e31103a-LAX
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '409'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json
       Date:
-      - Thu, 16 Mar 2023 07:31:15 GMT
-      Openai-Model:
+      - Thu, 18 May 2023 02:12:34 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      openai-model:
       - text-davinci-003
-      Openai-Organization: user-dummy
-      Openai-Processing-Ms:
-      - '1496'
-      Openai-Version:
+      openai-organization:
+      - user-dpc5ftw8bvmpxblb49hwviq5
+      openai-processing-ms:
+      - '4476'
+      openai-version:
       - '2020-10-01'
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=15724800; includeSubDomains
-      X-Request-Id:
-      - 5d36a4bfcab4faac39624b2dbd58e4ac
+      x-ratelimit-limit-requests:
+      - '3000'
+      x-ratelimit-limit-tokens:
+      - '250000'
+      x-ratelimit-remaining-requests:
+      - '2999'
+      x-ratelimit-remaining-tokens:
+      - '249487'
+      x-ratelimit-reset-requests:
+      - 20ms
+      x-ratelimit-reset-tokens:
+      - 122ms
+      x-request-id:
+      - c305c06bf29ba0cea25c3e3382348391
     status:
       code: 200
       message: OK
@@ -97,8 +122,8 @@ interactions:
     headers: {}
     method: POST
     uri: tool://Terminal/_get_raw_shell_update
-  response: "ls\r\nLICENSE   README.md\t     poetry.lock     tests\r\nMakefile  langchain_contrib
-    \ pyproject.toml\r\nzamm$ "
+  response: "ls\r\nLICENSE   README.md  docs\t\tpoetry.lock\ttests\r\nMakefile  dist\t
+    \    langchain_contrib\tpyproject.toml\ttmux.sh\r\nzamm$ "
 - request:
     body: '{"prompt": ["Answer the following questions as best you can. You have access
       to the following tools:\n\nTerminal: Executes commands in a terminal. Input
@@ -110,9 +135,8 @@ interactions:
       can repeat N times)\nThought: I now know the final answer\nFinal Answer: the
       final answer to the original input question\n\nBegin!\n\nQuestion: List the
       folders in the current directory. Enter into one of them. List folders again.\nThought:
-      I need to list the folders in the current directory, then enter into one of
-      them and list the folders again.\nAction: Terminal\nAction Input: ls\nObservation:
-      LICENSE   README.md\t     poetry.lock     tests\nMakefile  langchain_contrib  pyproject.toml\n\nThought:"],
+      I need to use the terminal to list the folders and enter into one of them.\nAction:
+      Terminal\nAction Input: ls\nObservation: LICENSE   README.md  docs\t\tpoetry.lock\ttests\nMakefile  dist\t     langchain_contrib\tpyproject.toml\ttmux.sh\nThought:"],
       "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
       1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
       {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
@@ -124,7 +148,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1276'
+      - '1260'
       Content-Type:
       - application/json
       User-Agent:
@@ -133,35 +157,59 @@ interactions:
     uri: https://api.openai.com/v1/completions
   response:
     body:
-      string: '{"id":"cmpl-6ucMuS1qvfw4dE3L6rKzF1BPAv0FG","object":"text_completion","created":1678951876,"model":"text-davinci-003","choices":[{"text":"
-        I need to enter into one of the folders\nAction: Terminal\nAction Input: cd
-        langchain_contrib","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":250,"completion_tokens":23,"total_tokens":273}}
-
-        '
+      string: !!binary |
+        H4sIAAAAAAAAA0SPwUoDMRRF935FuOsUpp22Y7MTRKxYoeJGVIZp8tpGM3kxeZVC6b9LRe323AOX
+        c4B3MLB9CoPm9mE5ys3nsu+vw6Iez5bp5v65erzbTBcJGrx6JyswENpLa7lPgcRzhIbN1Ak5mOH0
+        clw3k9lkrNGzo/CrD1z35aP1g6qqT/6WvaUC83L4mWGg5ioSOSWsKApl5aOw4kiK10q2pNYcHOXy
+        Gq/s6dWoJ8q9j134I2oe006Msk45tgUaPjraw1QagTcp86rAxF0IGmsffdm2mbrCEQZFOOH4prEr
+        3YZgDkiZ+ySt8AfFAjM6FZ2b//lwpiEsXTibTX08XnwDAAD//wMAdfjltFkBAAA=
     headers:
-      Access-Control-Allow-Origin:
-      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 7c9093743eca103a-LAX
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '358'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json
       Date:
-      - Thu, 16 Mar 2023 07:31:17 GMT
-      Openai-Model:
+      - Thu, 18 May 2023 02:12:37 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      openai-model:
       - text-davinci-003
-      Openai-Organization: user-dummy
-      Openai-Processing-Ms:
-      - '1350'
-      Openai-Version:
+      openai-organization:
+      - user-dpc5ftw8bvmpxblb49hwviq5
+      openai-processing-ms:
+      - '3016'
+      openai-version:
       - '2020-10-01'
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=15724800; includeSubDomains
-      X-Request-Id:
-      - 27c635fd8b891ac586ed90dac5f051ae
+      x-ratelimit-limit-requests:
+      - '3000'
+      x-ratelimit-limit-tokens:
+      - '250000'
+      x-ratelimit-remaining-requests:
+      - '2999'
+      x-ratelimit-remaining-tokens:
+      - '249487'
+      x-ratelimit-reset-requests:
+      - 20ms
+      x-ratelimit-reset-tokens:
+      - 122ms
+      x-request-id:
+      - 3806f1183b05f32f36457c022474171c
     status:
       code: 200
       message: OK
@@ -176,11 +224,10 @@ interactions:
       can repeat N times)\nThought: I now know the final answer\nFinal Answer: the
       final answer to the original input question\n\nBegin!\n\nQuestion: List the
       folders in the current directory. Enter into one of them. List folders again.\nThought:
-      I need to list the folders in the current directory, then enter into one of
-      them and list the folders again.\nAction: Terminal\nAction Input: ls\nObservation:
-      LICENSE   README.md\t     poetry.lock     tests\nMakefile  langchain_contrib  pyproject.toml\n\nThought:
+      I need to use the terminal to list the folders and enter into one of them.\nAction:
+      Terminal\nAction Input: ls\nObservation: LICENSE   README.md  docs\t\tpoetry.lock\ttests\nMakefile  dist\t     langchain_contrib\tpyproject.toml\ttmux.sh\nThought:
       I need to enter into one of the folders\nAction: Terminal\nAction Input: cd
-      langchain_contrib\nObservation: \nThought:"], "model": "text-davinci-003", "temperature":
+      docs\nObservation: \nThought:"], "model": "text-davinci-003", "temperature":
       0.0, "max_tokens": 256, "top_p": 1, "frequency_penalty": 0, "presence_penalty":
       0, "n": 1, "best_of": 1, "logit_bias": {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
     headers:
@@ -191,7 +238,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1395'
+      - '1366'
       Content-Type:
       - application/json
       User-Agent:
@@ -200,34 +247,59 @@ interactions:
     uri: https://api.openai.com/v1/completions
   response:
     body:
-      string: '{"id":"cmpl-6ucMwORhAelI7dWWIaNI1AUHrOE6t","object":"text_completion","created":1678951878,"model":"text-davinci-003","choices":[{"text":"
-        I need to list the folders again\nAction: Terminal\nAction Input: ls","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":282,"completion_tokens":16,"total_tokens":298}}
-
-        '
+      string: !!binary |
+        H4sIAAAAAAAAA0SP20oDMRRF3/2KsJ9T6MW207wpVFoVQRARLwzp5Mw0mskJkzNaKP13qah9XXvB
+        Yu/hHQyqNoXBfHV3P1vW/WNxe7mq03R545/5qeibr2t/BQ3evFMlMBDaSVlxmwKJ5wiNqiMr5GBG
+        s+J8Mp8upoVGy47Crz5w9tPHyg+Gw8nR37KvKMO87H9mGKi1ikROCavgsyjZkqo5OOqyso318TVe
+        VMecUQ/UtT7a8EfUOqZejAoZGj462sEMNQI3qeNNhol9CBq1jz5vy45s5giDLJxweNPos20IZo/U
+        cZukFP6gmGHGxVjj9POfj2YawmLDyVwUh8PZNwAAAP//AwBN7ptoTQEAAA==
     headers:
-      Access-Control-Allow-Origin:
-      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 7c90938a7bd9103a-LAX
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '333'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json
       Date:
-      - Thu, 16 Mar 2023 07:31:19 GMT
-      Openai-Model:
+      - Thu, 18 May 2023 02:12:40 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      openai-model:
       - text-davinci-003
-      Openai-Organization: user-dummy
-      Openai-Processing-Ms:
-      - '1803'
-      Openai-Version:
+      openai-organization:
+      - user-dpc5ftw8bvmpxblb49hwviq5
+      openai-processing-ms:
+      - '1870'
+      openai-version:
       - '2020-10-01'
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=15724800; includeSubDomains
-      X-Request-Id:
-      - 53cbf7b7df36b6b8d133c5f91d0b16c7
+      x-ratelimit-limit-requests:
+      - '3000'
+      x-ratelimit-limit-tokens:
+      - '250000'
+      x-ratelimit-remaining-requests:
+      - '2999'
+      x-ratelimit-remaining-tokens:
+      - '249488'
+      x-ratelimit-reset-requests:
+      - 20ms
+      x-ratelimit-reset-tokens:
+      - 122ms
+      x-request-id:
+      - b72caabf111e1e434526e3728b3cb404
     status:
       code: 200
       message: OK
@@ -236,7 +308,8 @@ interactions:
     headers: {}
     method: POST
     uri: tool://Terminal/_get_raw_shell_update
-  response: "ls\r\n__init__.py  __pycache__  tools  utils\r\nzamm$ "
+  response: "ls\r\nMakefile  agents  conf.py    llms      modules\trequirements.txt\r\n_build\t
+    \ chains  index.rst  make.bat  prompts\ttools\r\nzamm$ "
 - request:
     body: '{"prompt": ["Answer the following questions as best you can. You have access
       to the following tools:\n\nTerminal: Executes commands in a terminal. Input
@@ -248,12 +321,11 @@ interactions:
       can repeat N times)\nThought: I now know the final answer\nFinal Answer: the
       final answer to the original input question\n\nBegin!\n\nQuestion: List the
       folders in the current directory. Enter into one of them. List folders again.\nThought:
-      I need to list the folders in the current directory, then enter into one of
-      them and list the folders again.\nAction: Terminal\nAction Input: ls\nObservation:
-      LICENSE   README.md\t     poetry.lock     tests\nMakefile  langchain_contrib  pyproject.toml\n\nThought:
+      I need to use the terminal to list the folders and enter into one of them.\nAction:
+      Terminal\nAction Input: ls\nObservation: LICENSE   README.md  docs\t\tpoetry.lock\ttests\nMakefile  dist\t     langchain_contrib\tpyproject.toml\ttmux.sh\nThought:
       I need to enter into one of the folders\nAction: Terminal\nAction Input: cd
-      langchain_contrib\nObservation: \nThought: I need to list the folders again\nAction:
-      Terminal\nAction Input: ls\nObservation: __init__.py  __pycache__  tools  utils\n\nThought:"],
+      docs\nObservation: \nThought: I need to list the folders again\nAction: Terminal\nAction
+      Input: ls\nObservation: Makefile  agents  conf.py    llms      modules\trequirements.txt\n_build\t  chains  index.rst  make.bat  prompts\ttools\nThought:"],
       "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
       1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
       {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
@@ -265,7 +337,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1529'
+      - '1579'
       Content-Type:
       - application/json
       User-Agent:
@@ -274,37 +346,62 @@ interactions:
     uri: https://api.openai.com/v1/completions
   response:
     body:
-      string: '{"id":"cmpl-6ucMyZ8R1L0DmvrXqa15alXrnSoBk","object":"text_completion","created":1678951880,"model":"text-davinci-003","choices":[{"text":"
-        I now know the final answer\nFinal Answer: The folders in the current directory
-        are LICENSE, README.md, poetry.lock, tests, Makefile, langchain_contrib, pyproject.toml.
-        After entering into the langchain_contrib folder, the folders are __init__.py,
-        __pycache__, tools, and utils.","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":322,"completion_tokens":77,"total_tokens":399}}
-
-        '
+      string: !!binary |
+        H4sIAAAAAAAAA0SR3W4TQQxG73kKy9fOKihpfvYugiAq0VJoBUiAosmMdzNkdrzMeGnSKO+Odhu1
+        NyPZPvrmWD6hd1iibdowmn+8/bK4uvN39mk5b77lh+91Vdcz3t9/XvxAQtn+YatYovJBN1aaNrB6
+        iUhoExtlh+Xb2WI6mV8tZ2PCRhyHCz5y5p+P1o/G40nP78Rbzlj+PA1jLBGuIcoj7PtHdwyVjyaA
+        ifmR06/4YahWQ1XCQz+X4Dhl8HHAbZcSRwXnE1uVdASTGD5dv1vf3q8Jvq5X72/WReMInNhMcGP2
+        XPnABM5nJQgm1nZnfNxYiZr8lqA9tkn6lQuVJhBo0x2KvCtgVSkn4KicfKzBR5XBoU++eNHzDhfH
+        XuX1Q1Nz1ExgJVZFeyQIockEjbgucCZI/LfziZueKvSgBJtt54MjGAQzgY+OD0XqvRuz52JrlKBN
+        0rR9rokOVCTkAgkHFMsxYZC6TbLNWMYuBMLKR593m8QmS8QSs0qL59+EXTY1Y3nC58SNyp5jxnIy
+        nRC+nv2lv5wTqqgJL53pdHw+v/kPAAD//wMAlN+m8lwCAAA=
     headers:
-      Access-Control-Allow-Origin:
-      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 7c909399a87a103a-LAX
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '543'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json
       Date:
-      - Thu, 16 Mar 2023 07:31:24 GMT
-      Openai-Model:
+      - Thu, 18 May 2023 02:12:50 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      openai-model:
       - text-davinci-003
-      Openai-Organization: user-dummy
-      Openai-Processing-Ms:
-      - '4083'
-      Openai-Version:
+      openai-organization:
+      - user-dpc5ftw8bvmpxblb49hwviq5
+      openai-processing-ms:
+      - '9364'
+      openai-version:
       - '2020-10-01'
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=15724800; includeSubDomains
-      X-Request-Id:
-      - afe154f137ad5008c7af22a76bdee0dd
+      x-ratelimit-limit-requests:
+      - '3000'
+      x-ratelimit-limit-tokens:
+      - '250000'
+      x-ratelimit-remaining-requests:
+      - '2999'
+      x-ratelimit-remaining-tokens:
+      - '249487'
+      x-ratelimit-reset-requests:
+      - 20ms
+      x-ratelimit-reset-tokens:
+      - 122ms
+      x-request-id:
+      - f598e4f3b2da573c875edd77ccf84d1a
     status:
       code: 200
       message: OK

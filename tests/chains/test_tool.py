@@ -14,7 +14,7 @@ def test_chain_can_be_called() -> None:
     terminal = TerminalTool()
     chain = ToolChain(tool=terminal)
     assert chain({"action_input": 'basename "$PWD"'}, return_only_outputs=True) == {
-        "action_result": "langchain-contrib\n"
+        "action_result": "langchain-contrib"
     }
 
 
@@ -34,6 +34,6 @@ def test_chain_can_be_chained() -> None:
         return_all=True,
     )
     assert chained({"action_input": "date"}, return_only_outputs=True) == {
-        "time": "Thu Mar 23 14:50:01 AEDT 2023\n",
+        "time": "Thu Mar 23 14:50:01 AEDT 2023",
         "events_from_last_24_hrs": "a,b,c",
     }
