@@ -2,5 +2,5 @@ nbsphinx==0.9.1
 sphinx_book_theme==1.0.0
 pydata-sphinx-theme==0.13.1
 toml==0.10.2
-langchain==0.0.112
+langchain==0.0.184
 fvalues==0.0.3
