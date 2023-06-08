@@ -32,24 +32,24 @@ class DummyLanguageModel(BaseLanguageModel):
         """Error out asynchronously because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
-    def predict(self, text: str, *, stop: Sequence[str] | None = None) -> str:
+    def predict(self, text: str, *, stop: Optional[Sequence[str]] = None) -> str:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
     def apredict(
-        self, text: str, *, stop: Sequence[str] | None = None
+        self, text: str, *, stop: Optional[Sequence[str]] = None
     ) -> Coroutine[Any, Any, str]:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
     def predict_messages(
-        self, messages: List[BaseMessage], *, stop: Sequence[str] | None = None
+        self, messages: List[BaseMessage], *, stop: Optional[Sequence[str]] = None
     ) -> BaseMessage:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
     def apredict_messages(
-        self, messages: List[BaseMessage], *, stop: Sequence[str] | None = None
+        self, messages: List[BaseMessage], *, stop: Optional[Sequence[str]] = None
     ) -> Coroutine[Any, Any, BaseMessage]:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
