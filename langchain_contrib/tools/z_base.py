@@ -1,8 +1,9 @@
 """Module defining a more flexible BaseTool."""
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, Dict, Optional, Union
 
+from langchain.callbacks.manager import Callbacks
 from langchain.tools.base import BaseTool
 
 
@@ -27,24 +28,25 @@ class ZBaseTool(BaseTool):
             **kwargs,
         )
 
-    def _run(self, tool_input: str) -> str:
+    def _run(self, *args: Any, **kwargs: Any) -> Any:
         """Run the base tool."""
         assert self.base_tool is not None, "Either override _run or supply a base tool"
-        return self.base_tool._run(tool_input)
+        return self.base_tool._run(*args, **kwargs)
 
-    async def _arun(self, tool_input: str) -> str:
+    async def _arun(self, *args: Any, **kwargs: Any) -> Any:
         """Asynchronously run the base tool."""
         assert self.base_tool is not None, "Either override _arun or supply a base tool"
-        return await self.base_tool._arun(tool_input)
+        return await self.base_tool._arun(*args, **kwargs)
 
     def run(
         self,
-        tool_input: str,
+        tool_input: Union[str, Dict],
         verbose: Optional[bool] = None,
-        start_color: Optional[str] = None,
-        color: Optional[str] = None,
+        start_color: Optional[str] = "green",
+        color: Optional[str] = "green",
+        callbacks: Callbacks = None,
         **kwargs: Any,
-    ) -> str:
+    ) -> Any:
         """Run with the color specified at init if no colors specified now."""
         if start_color is None:
             start_color = self.color
@@ -60,12 +62,13 @@ class ZBaseTool(BaseTool):
 
     async def arun(
         self,
-        tool_input: str,
+        tool_input: Union[str, Dict],
         verbose: Optional[bool] = None,
-        start_color: Optional[str] = None,
-        color: Optional[str] = None,
+        start_color: Optional[str] = "green",
+        color: Optional[str] = "green",
+        callbacks: Callbacks = None,
         **kwargs: Any,
-    ) -> str:
+    ) -> Any:
         """Run with the color specified at init if no colors specified now."""
         if start_color is None:
             start_color = self.color
@@ -79,4 +82,6 @@ class ZBaseTool(BaseTool):
                 tool_input, verbose, start_color, color, **kwargs
             )
         else:
-            return await super().arun(tool_input, verbose, start_color, color, **kwargs)
+            return await super().arun(
+                tool_input, verbose, start_color, color, callbacks, **kwargs
+            )

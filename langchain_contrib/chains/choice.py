@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Callable, Dict, List, Mapping
+from typing import Any, Callable, Dict, List, Mapping, Optional
 
+from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
 from langchain.input import get_color_mapping
 from langchain.tools.base import BaseTool
@@ -95,7 +96,11 @@ class ChoiceChain(Chain):
         It is assumed that each individual choice chain will validate its own output.
         """
 
-    def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
+    def _call(
+        self,
+        inputs: Dict[str, str],
+        run_manager: Optional[CallbackManagerForChainRun] = None,
+    ) -> Dict[str, str]:
         """Run the logic of this chain and return the output."""
         # Get picker output
         raw_picker_output = self.choice_picker(inputs, return_only_outputs=True)

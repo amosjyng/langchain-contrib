@@ -1,7 +1,8 @@
 """Module that defines a Chain wrapper for Tools."""
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
+from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
 from langchain.tools.base import BaseTool
 
@@ -29,7 +30,11 @@ class ToolChain(Chain):
         """Output keys this chain expects."""
         return [self.tool_output_key]
 
-    def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
+    def _call(
+        self,
+        inputs: Dict[str, str],
+        run_manager: Optional[CallbackManagerForChainRun] = None,
+    ) -> Dict[str, str]:
         """Run the tool for this chain."""
         tool_input = inputs[self.tool_input_key]
         tool_output = self.tool.run(tool_input, observation_prefix="", llm_prefix="")

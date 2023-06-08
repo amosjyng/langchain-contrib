@@ -2,6 +2,7 @@
 
 from typing import Callable, Dict, List, Optional
 
+from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
 from pydantic import Extra
 
@@ -39,7 +40,11 @@ class FakeChain(Chain):
         """The keys of the predefined output dict."""
         return list(set(self.expected_outputs).union(self.output.keys()))
 
-    def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
+    def _call(
+        self,
+        inputs: Dict[str, str],
+        run_manager: Optional[CallbackManagerForChainRun] = None,
+    ) -> Dict[str, str]:
         """Return the output dict, along with inputs if so specified."""
         if self.inputs_to_outputs is None:
             return self.output

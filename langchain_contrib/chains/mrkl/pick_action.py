@@ -5,10 +5,11 @@ import json
 import re
 from typing import Dict, List, Optional, Tuple
 
+from langchain.base_language import BaseLanguageModel
+from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
 from langchain.llms.base import BaseLLM
 from langchain.prompts.base import BasePromptTemplate
-from langchain.schema import BaseLanguageModel
 from langchain.tools.base import BaseTool
 
 from langchain_contrib.utils import call_llm
@@ -93,7 +94,11 @@ class MrklPickActionChain(Chain):
         except Exception:
             raise ValueError(f"Could not parse LLM output: {llm_output}")
 
-    def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
+    def _call(
+        self,
+        inputs: Dict[str, str],
+        run_manager: Optional[CallbackManagerForChainRun] = None,
+    ) -> Dict[str, str]:
         """Get the LLM to pick an action and its input."""
         llm_response = call_llm(
             self.llm,
