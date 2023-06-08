@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from typing import Any, List, Optional
 
+from langchain.base_language import BaseLanguageModel
 from langchain.prompts.base import BasePromptTemplate
-from langchain.schema import BaseLanguageModel
 from langchain.tools.base import BaseTool
 
 from langchain_contrib.chains import ChoiceChain, ToolChain

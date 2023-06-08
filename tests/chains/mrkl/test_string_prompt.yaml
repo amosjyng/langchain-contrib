@@ -9,11 +9,11 @@ interactions:
       connection:
       - keep-alive
       host:
-      - 0.0.0.0:8935
+      - 127.0.0.1:8935
       user-agent:
       - python-httpx/0.23.3
     method: GET
-    uri: http://0.0.0.0:8935/ping
+    uri: http://127.0.0.1:8935/ping
   response:
     content: ought-ice says pong
     headers:
@@ -24,7 +24,7 @@ interactions:
       content-type:
       - text/plain; charset=utf-8
       date:
-      - Thu, 23 Mar 2023 02:34:07 GMT
+      - Wed, 07 Jun 2023 01:55:38 GMT
       server:
       - uvicorn
     http_version: HTTP/1.1
@@ -41,8 +41,8 @@ interactions:
       final answer to the original input question\n\nBegin!\n\nQuestion: List the
       folders in the current directory. Enter into one of them. List folders again.\nThought:"],
       "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
-      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
-      {}, "stop": ["\nObservation:"]}'
+      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "logit_bias": {},
+      "stop": ["\nObservation:"]}'
     headers:
       Accept:
       - '*/*'
@@ -51,7 +51,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '992'
+      - '978'
       Content-Type:
       - application/json
       User-Agent:
@@ -60,47 +60,60 @@ interactions:
     uri: https://api.openai.com/v1/completions
   response:
     body:
-      string: '{"id":"cmpl-6x547kQZ5OY36amD1S8wjWjz9jBE6","object":"text_completion","created":1679538843,"model":"text-davinci-003","choices":[{"text":"
-        I need to use the terminal to list the folders and enter into one of them.\nAction:
-        Terminal\nAction Input: ls","index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":180,"completion_tokens":26,"total_tokens":206}}
-
-        '
+      string: !!binary |
+        H4sIAAAAAAAAA0TQwWoCMRCA4XufIsw5ll2lW81NehKKrVDsoS0Sk1Fjk5klmRWp+O5lxdbrNz/D
+        MCcIHgy41MbB44vb+vf5eF83zdo+lzBfPPwclsunxWtOoIHXe3QCBgSPsnKc2ogSmECDy2gFPZi6
+        GTd1NZyMJhoSe4zXfODtIZALg6oa9f2Og8MC5uN0GYMBNVOE6JWw6goq2aESzCmQjb3FUOSCG44e
+        c1GWvEISzCqQsGJCxZu+SPefNHX9YUa9XTf8iZpR24lRsYCGQB6PYCoNkbdt5nUBQ12MGjaBQtmt
+        MtrCBAaKcAvnLw1dsVsEc4I2c2plJfyNVMDU40rD7SP/Pmw0CIuNN6ma8/nuFwAA//8DAPlStEN3
+        AQAA
     headers:
-      Access-Control-Allow-Origin:
-      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 7d35462a7d4b274b-ADL
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '375'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Mar 2023 02:34:04 GMT
-      Openai-Model:
+      - Wed, 07 Jun 2023 01:55:41 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400
+      openai-model:
       - text-davinci-003
-      Openai-Organization: user-dummy
-      Openai-Processing-Ms:
-      - '1024'
-      Openai-Version:
+      openai-organization:
+      - user-dpc5ftw8bvmpxblb49hwviq5
+      openai-processing-ms:
+      - '1821'
+      openai-version:
       - '2020-10-01'
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=15724800; includeSubDomains
-      X-Ratelimit-Limit-Requests:
+      x-ratelimit-limit-requests:
       - '3000'
-      X-Ratelimit-Limit-Tokens:
+      x-ratelimit-limit-tokens:
       - '250000'
-      X-Ratelimit-Remaining-Requests:
+      x-ratelimit-remaining-requests:
       - '2999'
-      X-Ratelimit-Remaining-Tokens:
-      - '249488'
-      X-Ratelimit-Reset-Requests:
+      x-ratelimit-remaining-tokens:
+      - '249744'
+      x-ratelimit-reset-requests:
       - 20ms
-      X-Ratelimit-Reset-Tokens:
-      - 122ms
-      X-Request-Id:
-      - aab31cfe631ee7776ddbf88a92157476
+      x-ratelimit-reset-tokens:
+      - 61ms
+      x-request-id:
+      - b37ea6eaf27ee075b3573b0066f0f0a9
     status:
       code: 200
       message: OK

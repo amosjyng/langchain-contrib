@@ -9,11 +9,11 @@ interactions:
       connection:
       - keep-alive
       host:
-      - 0.0.0.0:8935
+      - 127.0.0.1:8935
       user-agent:
       - python-httpx/0.23.3
     method: GET
-    uri: http://0.0.0.0:8935/ping
+    uri: http://127.0.0.1:8935/ping
   response:
     content: ought-ice says pong
     headers:
@@ -24,7 +24,7 @@ interactions:
       content-type:
       - text/plain; charset=utf-8
       date:
-      - Thu, 18 May 2023 02:12:31 GMT
+      - Thu, 08 Jun 2023 01:42:40 GMT
       server:
       - uvicorn
     http_version: HTTP/1.1
@@ -41,8 +41,8 @@ interactions:
       final answer to the original input question\n\nBegin!\n\nQuestion: List the
       folders in the current directory. Enter into one of them. List folders again.\nThought:"],
       "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
-      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
-      {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "logit_bias": {},
+      "stop": ["\nObservation:", "\n\tObservation:"]}'
     headers:
       Accept:
       - '*/*'
@@ -51,7 +51,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1012'
+      - '998'
       Content-Type:
       - application/json
       User-Agent:
@@ -61,17 +61,17 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA0TQTU/DMAyA4Tu/IvI5Qx376nKDA2IXtAMHxoemrHHXsNSOGhd1VPvvqNNg18ev
-        LMs9eAcGijqG0eLped09/JSvs0N9XFeP/i2s825Txc2Rc9DAuy8sBAwIdrItuI4BxTOBhqJBK+jA
-        jOf5dLKYLadLDTU7DJd85Oy3p8KPsmwy9BX7AhOY9/48BgNqpQjRKWHVJlRSoRJsak82DBZ8kjOW
-        HBw2SVlyCkmwUZ6EFRMqLoeivv2g+2I4zKiXy4Y/USuKrRgVEmjw5LADk2kIvI8N7xIYakPQUHry
-        qdo2aBMTGEjCEU6fGtpk9wimh9hwHWUrfEBKYMZ5puH6kX+/m2sQFhuuks1Pp5tfAAAA//8DAPkW
-        nl13AQAA
+        H4sIAAAAAAAAA0TQwU7DMAyA4TtPEfmcoXYTXcmNGxUgLkMcAE1Z424ZqR0SFxVNe3fUabDr51+W
+        5QN4BwbaPobZ8vlnxNR9DT67+cPj0/3iZdk3+1Xzejs60MCbPbYCBgRHWbfcx4DimUBDm9AKOjBl
+        VVdlXd9Ucw09OwznfObst6fWz4piMfU79i1mMG+H0xgMqEYRolPCasioZIdKMPWebJgs+Cwn7Dg4
+        TFlZcgpJMClPwooJFXdT0V+/0107HWbU6rzhT1RDcRCjQgYNnhyOYAoNgbcx8SaDoSEEDZ0nn3fr
+        hDYzgYEsHOH4oWHIdotgDhAT91HWwp9IGUxZFxouH/n3eaVBWGy4SFEdj1e/AAAA//8DAJSAcCF3
+        AQAA
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7c9093550e31103a-LAX
+      - 7d3d7090aefc274a-ADL
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
@@ -81,7 +81,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 18 May 2023 02:12:34 GMT
+      - Thu, 08 Jun 2023 01:42:44 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -89,13 +89,13 @@ interactions:
       access-control-allow-origin:
       - '*'
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       openai-model:
       - text-davinci-003
       openai-organization:
       - user-dpc5ftw8bvmpxblb49hwviq5
       openai-processing-ms:
-      - '4476'
+      - '2079'
       openai-version:
       - '2020-10-01'
       strict-transport-security:
@@ -107,13 +107,13 @@ interactions:
       x-ratelimit-remaining-requests:
       - '2999'
       x-ratelimit-remaining-tokens:
-      - '249487'
+      - '249744'
       x-ratelimit-reset-requests:
       - 20ms
       x-ratelimit-reset-tokens:
-      - 122ms
+      - 61ms
       x-request-id:
-      - c305c06bf29ba0cea25c3e3382348391
+      - f395566120242284fcbde73db19834f8
     status:
       code: 200
       message: OK
@@ -138,8 +138,8 @@ interactions:
       I need to use the terminal to list the folders and enter into one of them.\nAction:
       Terminal\nAction Input: ls\nObservation: LICENSE   README.md  docs\t\tpoetry.lock\ttests\nMakefile  dist\t     langchain_contrib\tpyproject.toml\ttmux.sh\nThought:"],
       "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
-      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
-      {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "logit_bias": {},
+      "stop": ["\nObservation:", "\n\tObservation:"]}'
     headers:
       Accept:
       - '*/*'
@@ -148,7 +148,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1260'
+      - '1246'
       Content-Type:
       - application/json
       User-Agent:
@@ -158,16 +158,16 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA0SPwUoDMRRF935FuOsUpp22Y7MTRKxYoeJGVIZp8tpGM3kxeZVC6b9LRe323AOX
-        c4B3MLB9CoPm9mE5ys3nsu+vw6Iez5bp5v65erzbTBcJGrx6JyswENpLa7lPgcRzhIbN1Ak5mOH0
-        clw3k9lkrNGzo/CrD1z35aP1g6qqT/6WvaUC83L4mWGg5ioSOSWsKApl5aOw4kiK10q2pNYcHOXy
-        Gq/s6dWoJ8q9j134I2oe006Msk45tgUaPjraw1QagTcp86rAxF0IGmsffdm2mbrCEQZFOOH4prEr
-        3YZgDkiZ+ySt8AfFAjM6FZ2b//lwpiEsXTibTX08XnwDAAD//wMAdfjltFkBAAA=
+        H4sIAAAAAAAAA0SPy2pCMRRF5/2KsMcRrlWvNrNOKtKBlHbUBxKTozc2Nyckx1YR/71Y+piuvWCx
+        TwgeBq7PcTBdHg/dSKp79A/rpTwf2+aOd+P5572dL6DB6x05gYHQQVaO+xxJAidouEJWyMMM21k7
+        nM0m7USjZ0/xRx94+xGSC4OmGV38joOjCvNy+p5hoBYqEXklrCgJFRWSsOJEijdKOlIbjp5KfU23
+        7lI16olKH5KNv0QtUt6LUc4rz65CIyRPB5hGI/I2F15XmLSPUWMTUqjdqpCtnGBQhTPObxr7arcE
+        c0Iu3GdZCb9TqjDXk7HG/+c/PrzREBYb/83p6Hy++gIAAP//AwCbdAKLWQEAAA==
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7c9093743eca103a-LAX
+      - 7d3d70a27b24274a-ADL
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
@@ -177,7 +177,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 18 May 2023 02:12:37 GMT
+      - Thu, 08 Jun 2023 01:42:47 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -185,13 +185,13 @@ interactions:
       access-control-allow-origin:
       - '*'
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       openai-model:
       - text-davinci-003
       openai-organization:
       - user-dpc5ftw8bvmpxblb49hwviq5
       openai-processing-ms:
-      - '3016'
+      - '2109'
       openai-version:
       - '2020-10-01'
       strict-transport-security:
@@ -203,13 +203,13 @@ interactions:
       x-ratelimit-remaining-requests:
       - '2999'
       x-ratelimit-remaining-tokens:
-      - '249487'
+      - '249744'
       x-ratelimit-reset-requests:
       - 20ms
       x-ratelimit-reset-tokens:
-      - 122ms
+      - 61ms
       x-request-id:
-      - 3806f1183b05f32f36457c022474171c
+      - 07bd4922835e07a657860bff8f60f26c
     status:
       code: 200
       message: OK
@@ -229,7 +229,7 @@ interactions:
       I need to enter into one of the folders\nAction: Terminal\nAction Input: cd
       docs\nObservation: \nThought:"], "model": "text-davinci-003", "temperature":
       0.0, "max_tokens": 256, "top_p": 1, "frequency_penalty": 0, "presence_penalty":
-      0, "n": 1, "best_of": 1, "logit_bias": {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+      0, "n": 1, "logit_bias": {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
     headers:
       Accept:
       - '*/*'
@@ -238,7 +238,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1366'
+      - '1352'
       Content-Type:
       - application/json
       User-Agent:
@@ -248,16 +248,16 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA0SP20oDMRRF3/2KsJ9T6MW207wpVFoVQRARLwzp5Mw0mskJkzNaKP13qah9XXvB
-        Yu/hHQyqNoXBfHV3P1vW/WNxe7mq03R545/5qeibr2t/BQ3evFMlMBDaSVlxmwKJ5wiNqiMr5GBG
-        s+J8Mp8upoVGy47Crz5w9tPHyg+Gw8nR37KvKMO87H9mGKi1ikROCavgsyjZkqo5OOqyso318TVe
-        VMecUQ/UtT7a8EfUOqZejAoZGj462sEMNQI3qeNNhol9CBq1jz5vy45s5giDLJxweNPos20IZo/U
-        cZukFP6gmGHGxVjj9POfj2YawmLDyVwUh8PZNwAAAP//AwBN7ptoTQEAAA==
+        H4sIAAAAAAAAA0SPwWoCMRRF9/2KcNcRRqvjmJ2r4qJIodBiWySTPDU2kxcmz6KI/14sbd2ee+Bw
+        zwgeBq7LcTBdno772ejh1Me9W+XV/Kldjh9fxy/tZFJBg9s9OYGB0FHWjrscSQInaLierJCHGdZN
+        PWyaST3V6NhT/NUH3n6F5MKgqu6v/o6DowLzdv6ZYaAWKhF5JaxiKKJkR2rD0VNflN3akN7T3F1z
+        Rj1T34Vk4x9Ri5QPYlQs0AjJ0xGm0oi8zT23BSYdYtTYhBTKbt2TLZxgUIQzLh8ah2K3BHNG7rnL
+        shb+pFRgRs1I4/bznw9rDWGx8WbOmsvl7hsAAP//AwCGKJjITQEAAA==
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7c90938a7bd9103a-LAX
+      - 7d3d70b33c83274a-ADL
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
@@ -267,7 +267,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 18 May 2023 02:12:40 GMT
+      - Thu, 08 Jun 2023 01:42:50 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -275,13 +275,13 @@ interactions:
       access-control-allow-origin:
       - '*'
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       openai-model:
       - text-davinci-003
       openai-organization:
       - user-dpc5ftw8bvmpxblb49hwviq5
       openai-processing-ms:
-      - '1870'
+      - '2586'
       openai-version:
       - '2020-10-01'
       strict-transport-security:
@@ -293,13 +293,13 @@ interactions:
       x-ratelimit-remaining-requests:
       - '2999'
       x-ratelimit-remaining-tokens:
-      - '249488'
+      - '249744'
       x-ratelimit-reset-requests:
       - 20ms
       x-ratelimit-reset-tokens:
-      - 122ms
+      - 61ms
       x-request-id:
-      - b72caabf111e1e434526e3728b3cb404
+      - fffb26502ef749f006f061a3873a1d41
     status:
       code: 200
       message: OK
@@ -327,8 +327,8 @@ interactions:
       docs\nObservation: \nThought: I need to list the folders again\nAction: Terminal\nAction
       Input: ls\nObservation: Makefile  agents  conf.py    llms      modules\trequirements.txt\n_build\t  chains  index.rst  make.bat  prompts\ttools\nThought:"],
       "model": "text-davinci-003", "temperature": 0.0, "max_tokens": 256, "top_p":
-      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "best_of": 1, "logit_bias":
-      {}, "stop": ["\nObservation:", "\n\tObservation:"]}'
+      1, "frequency_penalty": 0, "presence_penalty": 0, "n": 1, "logit_bias": {},
+      "stop": ["\nObservation:", "\n\tObservation:"]}'
     headers:
       Accept:
       - '*/*'
@@ -337,7 +337,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1579'
+      - '1565'
       Content-Type:
       - application/json
       User-Agent:
@@ -347,19 +347,19 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA0SR3W4TQQxG73kKy9fOKihpfvYugiAq0VJoBUiAosmMdzNkdrzMeGnSKO+Odhu1
-        NyPZPvrmWD6hd1iibdowmn+8/bK4uvN39mk5b77lh+91Vdcz3t9/XvxAQtn+YatYovJBN1aaNrB6
-        iUhoExtlh+Xb2WI6mV8tZ2PCRhyHCz5y5p+P1o/G40nP78Rbzlj+PA1jLBGuIcoj7PtHdwyVjyaA
-        ifmR06/4YahWQ1XCQz+X4Dhl8HHAbZcSRwXnE1uVdASTGD5dv1vf3q8Jvq5X72/WReMInNhMcGP2
-        XPnABM5nJQgm1nZnfNxYiZr8lqA9tkn6lQuVJhBo0x2KvCtgVSkn4KicfKzBR5XBoU++eNHzDhfH
-        XuX1Q1Nz1ExgJVZFeyQIockEjbgucCZI/LfziZueKvSgBJtt54MjGAQzgY+OD0XqvRuz52JrlKBN
-        0rR9rokOVCTkAgkHFMsxYZC6TbLNWMYuBMLKR593m8QmS8QSs0qL59+EXTY1Y3nC58SNyp5jxnIy
-        nRC+nv2lv5wTqqgJL53pdHw+v/kPAAD//wMAlN+m8lwCAAA=
+        H4sIAAAAAAAAA0SRUWsbMQzH3/cphJ6V40rSJLu3kKXQdd1gG2ywjeDYSs6Lz7rauvZCyXcvdw3t
+        i0HSj79/Qs/oHVZomzZMFt9Ofdt+Xl4/NL/quzzXcn28Ke9Os9/94xoJZfefrWKFyr1urTRtYPUS
+        kdAmNsoOq6v5cn61XF4vpoSNOA4XfOLMo4/WT8pyOvC1eMsZqz/P4xgrhFuI8gTH4dGaYe+jCWBi
+        fuL0N96M1WqsKvg5zCU4Thl8HHHbpcRRwfnEViWdwCSGL7frzdcfG4Lvm9Wn+03ROAInNhPcmyPv
+        fWAC57MSBBMPtjY+bq1ETX5H0J7aJMPKhUoTCLTp+iLXBaz2ygk4KicfD+CjyugwJF+86HWHi+Og
+        8v6hOXDUTGAl7ov2RBBCkwkacV3gTJD4ofOJm4EqtFeC7a7zwRGMgpnAR8d9kQbvxhy52BklaJM0
+        7ZBrogMVCblAwhHFqiQMcmiT7DJWsQuBcO+jz/U2sckSscKs0uL5H2GXzYGxesbXxK3KkWPGajqb
+        Er6f/a3/cUGooia8dWaz8nz+8AIAAP//AwBFwCUSXAIAAA==
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7c909399a87a103a-LAX
+      - 7d3d70d3ae3e274a-ADL
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
@@ -369,7 +369,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 18 May 2023 02:12:50 GMT
+      - Thu, 08 Jun 2023 01:42:57 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -377,13 +377,13 @@ interactions:
       access-control-allow-origin:
       - '*'
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       openai-model:
       - text-davinci-003
       openai-organization:
       - user-dpc5ftw8bvmpxblb49hwviq5
       openai-processing-ms:
-      - '9364'
+      - '4187'
       openai-version:
       - '2020-10-01'
       strict-transport-security:
@@ -395,13 +395,13 @@ interactions:
       x-ratelimit-remaining-requests:
       - '2999'
       x-ratelimit-remaining-tokens:
-      - '249487'
+      - '249744'
       x-ratelimit-reset-requests:
       - 20ms
       x-ratelimit-reset-tokens:
-      - 122ms
+      - 61ms
       x-request-id:
-      - f598e4f3b2da573c875edd77ccf84d1a
+      - ab92d5eeef8bb085e77b67b234898906
     status:
       code: 200
       message: OK

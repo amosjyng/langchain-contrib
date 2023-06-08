@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import Any, Sequence, Union
 
 from fvalues import F
+from langchain.base_language import BaseLanguageModel
 from langchain.chains.prompt_selector import BasePromptSelector, is_chat_model
 from langchain.prompts.base import BasePromptTemplate, StringPromptValue
 from langchain.prompts.chat import (
@@ -11,7 +12,7 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
     SystemMessagePromptTemplate,
 )
-from langchain.schema import BaseLanguageModel, BaseMessage, PromptValue
+from langchain.schema import BaseMessage, PromptValue
 from pydantic import Extra
 
 from langchain_contrib.prompts import (

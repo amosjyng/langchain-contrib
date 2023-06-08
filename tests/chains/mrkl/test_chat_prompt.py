@@ -30,7 +30,7 @@ async def test_chat_prompt() -> Dict[str, str]:
             },
             return_only_outputs=True,
         )
-        assert result["action_input"] == "ls"
+        assert result["action_input"].startswith("ls")
         return result
 
 

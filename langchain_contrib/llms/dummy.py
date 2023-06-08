@@ -1,8 +1,10 @@
 """A module for defining a dummy LLM."""
 
-from typing import List, Optional
+from typing import Any, Coroutine, List, Optional, Sequence
 
-from langchain.schema import BaseLanguageModel, LLMResult, PromptValue
+from langchain.base_language import BaseLanguageModel
+from langchain.callbacks.manager import Callbacks
+from langchain.schema import BaseMessage, LLMResult, PromptValue
 
 
 class DummyLanguageModel(BaseLanguageModel):
@@ -13,13 +15,41 @@ class DummyLanguageModel(BaseLanguageModel):
     """
 
     def generate_prompt(
-        self, prompts: List[PromptValue], stop: Optional[List[str]] = None
+        self,
+        prompts: List[PromptValue],
+        stop: Optional[List[str]] = None,
+        callbacks: Callbacks = None,
     ) -> LLMResult:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
     async def agenerate_prompt(
-        self, prompts: List[PromptValue], stop: Optional[List[str]] = None
+        self,
+        prompts: List[PromptValue],
+        stop: Optional[List[str]] = None,
+        callbacks: Callbacks = None,
     ) -> LLMResult:
         """Error out asynchronously because this is a dummy LLM."""
+        raise NotImplementedError("You're using the dummy LLM")
+
+    def predict(self, text: str, *, stop: Sequence[str] | None = None) -> str:
+        """Error out because this is a dummy LLM."""
+        raise NotImplementedError("You're using the dummy LLM")
+
+    def apredict(
+        self, text: str, *, stop: Sequence[str] | None = None
+    ) -> Coroutine[Any, Any, str]:
+        """Error out because this is a dummy LLM."""
+        raise NotImplementedError("You're using the dummy LLM")
+
+    def predict_messages(
+        self, messages: List[BaseMessage], *, stop: Sequence[str] | None = None
+    ) -> BaseMessage:
+        """Error out because this is a dummy LLM."""
+        raise NotImplementedError("You're using the dummy LLM")
+
+    def apredict_messages(
+        self, messages: List[BaseMessage], *, stop: Sequence[str] | None = None
+    ) -> Coroutine[Any, Any, BaseMessage]:
+        """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")

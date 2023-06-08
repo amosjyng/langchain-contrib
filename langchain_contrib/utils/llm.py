@@ -2,9 +2,10 @@
 
 from typing import List, Optional
 
+from langchain.base_language import BaseLanguageModel
 from langchain.chat_models.base import BaseChatModel
 from langchain.llms.base import BaseLLM
-from langchain.schema import BaseLanguageModel, PromptValue
+from langchain.schema import PromptValue
 
 
 def call_llm(

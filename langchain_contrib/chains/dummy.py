@@ -1,9 +1,9 @@
 """Module for dummy chains."""
 
 
+from langchain.base_language import BaseLanguageModel
 from langchain.chains.llm import LLMChain
 from langchain.prompts.base import BasePromptTemplate
-from langchain.schema import BaseLanguageModel
 
 from langchain_contrib.llms import DummyLanguageModel
 from langchain_contrib.prompts import DummyPromptTemplate

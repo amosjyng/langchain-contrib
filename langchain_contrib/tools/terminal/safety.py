@@ -1,13 +1,14 @@
 """Module that adds safety to the terminal."""
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
+from langchain.base_language import BaseLanguageModel
+from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
 from langchain.chains.llm import LLMChain
 from langchain.chains.sequential import SequentialChain
 from langchain.prompts.base import BasePromptTemplate
 from langchain.prompts.prompt import PromptTemplate
-from langchain.schema import BaseLanguageModel
 from langchain.tools.base import BaseTool
 from pydantic import Field
 
@@ -61,7 +62,11 @@ Your choice: """.lstrip(),
         """Prompt the user for the new command."""
         return PromptTemplate.from_template("Replace it with: ")
 
-    def _call(self, inputs: Dict[str, str]) -> Dict[str, str]:
+    def _call(
+        self,
+        inputs: Dict[str, str],
+        run_manager: Optional[CallbackManagerForChainRun] = None,
+    ) -> Dict[str, str]:
         pick_action = LLMChain(
             llm=self.human, prompt=self.review_prompt, output_key="choice"
         )

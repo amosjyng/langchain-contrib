@@ -23,9 +23,7 @@ def test_use_terminal() -> None:
             ]
         )
         tools = load_tools(["persistent_terminal"], llm=llm)
-        agent = initialize_agent(
-            tools, llm, agent="zero-shot-react-description", verbose=True
-        )
+        agent = initialize_agent(tools, llm, verbose=True)
         result = agent.run(
             "List the folders in the current directory. Enter into one of them. List "
             "folders again."

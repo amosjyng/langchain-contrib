@@ -1,5 +1,35 @@
 interactions:
 - request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - 0.0.0.0:8935
+      user-agent:
+      - python-httpx/0.23.3
+    method: GET
+    uri: http://0.0.0.0:8935/ping
+  response:
+    content: ought-ice says pong
+    headers:
+      cache-control:
+      - no-transform
+      content-length:
+      - '19'
+      content-type:
+      - text/plain; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 01:44:49 GMT
+      server:
+      - uvicorn
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
     body: '{"messages": [{"role": "system", "content": "Answer the following questions
       as best you can. You have access to the following tools:\n\nTerminal: Executes
       commands in a terminal. Input should be valid commands, and the output will
@@ -20,7 +50,7 @@ interactions:
       Reminder to always use the exact characters `Final Answer` when responding."},
       {"role": "user", "content": "List the folders in the current directory. Enter
       into one of them. List folders again.\n\n"}], "model": "gpt-3.5-turbo", "max_tokens":
-      null, "stream": false, "n": 1, "stop": ["\nObservation:"]}'
+      null, "stream": false, "n": 1, "temperature": 0.7, "stop": ["\nObservation:"]}'
     headers:
       Accept:
       - '*/*'
@@ -29,7 +59,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '1659'
+      - '1679'
       Content-Type:
       - application/json
       User-Agent:
@@ -38,43 +68,62 @@ interactions:
     uri: https://api.openai.com/v1/chat/completions
   response:
     body:
-      string: '{"id":"chatcmpl-6x6oNpIyzr2UeHGY8TXOQVeRHG7bv","object":"chat.completion","created":1679545555,"model":"gpt-3.5-turbo-0301","usage":{"prompt_tokens":354,"completion_tokens":63,"total_tokens":417},"choices":[{"message":{"role":"assistant","content":"Question:
-        List the folders in the current directory. Enter into one of them. List folders
-        again.\nThought: I should use the Terminal tool to navigate through the directory
-        and retrieve the folder names.\nAction:\n```\n{\n  \"action\": \"Terminal\",\n  \"action_input\":
-        \"ls\"\n}\n```"},"finish_reason":"stop","index":0}]}
-
-        '
+      string: !!binary |
+        H4sIAAAAAAAAA0yPW2vbQBCF3/srhnkskupL7Nj7VnqBQEsIBFLaLfZmNZY2Wc2I3VFoMf7vRUqc
+        5mVhz5zznZkjhhoN+tap7/pYXl77u+1j+8ktLp++fr7Zcvv96u560//8sdIHLFDuH8jrS6Ly0vWR
+        NAhjgT6RU6rRzNeb9Xy2WGy2BXZSU0SDTa/lslqVOqR7KWfL2RwLHLJrCM0R+yRdrzuVR+KMZrla
+        Ffif/aqvLwpUURdflYv59lSgbyV4ymh+HbGjfKYmiYQGXc4hq2MddxRW4nH/m4HyCDfwLWQFbQkO
+        EmtKGQJPXz+kRKxQh0ReJf2t4AsrJQisAsIEchiNXfWMOMdd4wJXlsHybStD06qBK8itDLGGIdME
+        v6XUBXYRVGR8gN1TaJyO0zSGJte5OlAGxzXENz2VZcsf/XSD5f1+b/loGcCim0SLBiyeeywWb4e7
+        wP2gz5aYoazh/QeLlk8vJDwVeAgccrtL5LIwGswqPRYYuKY/aGan36d3/wAAAP//AwBS82ViPgIA
+        AA==
     headers:
-      Access-Control-Allow-Origin:
-      - '*'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 7d35364a4ba53e5d-ADL
       Cache-Control:
       - no-cache, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '572'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Mar 2023 04:25:57 GMT
-      Openai-Model:
+      - Wed, 07 Jun 2023 01:44:54 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400
+      openai-model:
       - gpt-3.5-turbo-0301
-      Openai-Organization: user-dummy
-      Openai-Processing-Ms:
-      - '2758'
-      Openai-Version:
+      openai-organization:
+      - user-dpc5ftw8bvmpxblb49hwviq5
+      openai-processing-ms:
+      - '5175'
+      openai-version:
       - '2020-10-01'
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=15724800; includeSubDomains
-      X-Ratelimit-Limit-Requests:
+      x-ratelimit-limit-requests:
       - '3500'
-      X-Ratelimit-Remaining-Requests:
+      x-ratelimit-limit-tokens:
+      - '90000'
+      x-ratelimit-remaining-requests:
       - '3499'
-      X-Ratelimit-Reset-Requests:
+      x-ratelimit-remaining-tokens:
+      - '89626'
+      x-ratelimit-reset-requests:
       - 17ms
-      X-Request-Id:
-      - a884bfa8cd3cdb667df75625447222e0
+      x-ratelimit-reset-tokens:
+      - 248ms
+      x-request-id:
+      - 29ffb4e78561cd40ff83d11c83dd0028
     status:
       code: 200
       message: OK

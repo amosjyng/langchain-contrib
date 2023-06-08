@@ -1,6 +1,7 @@
 """Fake LLMs for testing purposes."""
 from typing import Any, List, Mapping, Optional
 
+from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.llms.base import LLM
 from pydantic import BaseModel
 
@@ -41,7 +42,12 @@ class FakeLLM(LLM, BaseModel):
         assert found_stop, f"Output '{result}' does not end in {stop}"
         return result
 
-    def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
+    def _call(
+        self,
+        prompt: str,
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
+    ) -> str:
         """First try to lookup in queries, else return 'foo' or 'bar'."""
         if self.sequenced_responses is not None and self.num_calls < len(
             self.sequenced_responses

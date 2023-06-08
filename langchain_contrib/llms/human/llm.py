@@ -3,6 +3,7 @@
 import logging
 from typing import List, Optional
 
+from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.llms.base import LLM
 from langchain.llms.utils import enforce_stop_tokens
 from simple_term_menu import TerminalMenu
@@ -25,7 +26,12 @@ class BaseHuman(LLM):
                 return True
         return False
 
-    def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
+    def _call(
+        self,
+        prompt: str,
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
+    ) -> str:
         """Get the human to respond to the given prompt."""
         if stop is not None:
             assert isinstance(stop, list), "Stops must be provided as a list"
@@ -43,7 +49,12 @@ class BaseHuman(LLM):
 class Human(BaseHuman):
     """A human 'LLM' with terminal support for choice prompts."""
 
-    def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
+    def _call(
+        self,
+        prompt: str,
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
+    ) -> str:
         """Get the human to respond to the given prompt."""
         if isinstance(prompt, ChoiceStr):
             try:
