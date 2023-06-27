@@ -19,6 +19,7 @@ class DummyLanguageModel(BaseLanguageModel):
         prompts: List[PromptValue],
         stop: Optional[List[str]] = None,
         callbacks: Callbacks = None,
+        **kwargs: Any,
     ) -> LLMResult:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
@@ -28,28 +29,47 @@ class DummyLanguageModel(BaseLanguageModel):
         prompts: List[PromptValue],
         stop: Optional[List[str]] = None,
         callbacks: Callbacks = None,
+        **kwargs: Any,
     ) -> LLMResult:
         """Error out asynchronously because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
-    def predict(self, text: str, *, stop: Optional[Sequence[str]] = None) -> str:
+    def predict(
+        self,
+        text: str,
+        *,
+        stop: Optional[Sequence[str]] = None,
+        **kwargs: Any,
+    ) -> str:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
     def apredict(
-        self, text: str, *, stop: Optional[Sequence[str]] = None
+        self,
+        text: str,
+        *,
+        stop: Optional[Sequence[str]] = None,
+        **kwargs: Any,
     ) -> Coroutine[Any, Any, str]:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
     def predict_messages(
-        self, messages: List[BaseMessage], *, stop: Optional[Sequence[str]] = None
+        self,
+        messages: List[BaseMessage],
+        *,
+        stop: Optional[Sequence[str]] = None,
+        **kwargs: Any,
     ) -> BaseMessage:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")
 
     def apredict_messages(
-        self, messages: List[BaseMessage], *, stop: Optional[Sequence[str]] = None
+        self,
+        messages: List[BaseMessage],
+        *,
+        stop: Optional[Sequence[str]] = None,
+        **kwargs: Any,
     ) -> Coroutine[Any, Any, BaseMessage]:
         """Error out because this is a dummy LLM."""
         raise NotImplementedError("You're using the dummy LLM")

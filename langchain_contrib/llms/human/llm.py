@@ -1,7 +1,7 @@
 """Module that defines human-based 'LLM's."""
 
 import logging
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.llms.base import LLM
@@ -31,6 +31,7 @@ class BaseHuman(LLM):
         prompt: str,
         stop: Optional[List[str]] = None,
         run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs: Any,
     ) -> str:
         """Get the human to respond to the given prompt."""
         if stop is not None:
@@ -54,6 +55,7 @@ class Human(BaseHuman):
         prompt: str,
         stop: Optional[List[str]] = None,
         run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs: Any,
     ) -> str:
         """Get the human to respond to the given prompt."""
         if isinstance(prompt, ChoiceStr):

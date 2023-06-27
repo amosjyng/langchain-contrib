@@ -110,7 +110,8 @@ def test_chat_partials() -> None:
         [SystemMessagePromptTemplate.from_template("a={a} b={b} c={c}")]
     )
     assert isinstance(template, ZChatPromptTemplate)
-    partial = template.partial(a="one").permissive_partial(b=2)
-    assert partial.format_prompt(c=[3]) == ChatPromptValue(
+    partial_a = template.partial(a="one")
+    partial_b = partial_a.permissive_partial(b=2)
+    assert partial_b.format_prompt(c=[3]) == ChatPromptValue(
         messages=[SystemMessage(content="a=one b=2 c=[3]")]
     )

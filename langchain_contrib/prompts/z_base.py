@@ -10,7 +10,7 @@ from langchain.prompts.base import (
     StringPromptValue,
     check_valid_template,
 )
-from langchain.prompts.chat import ChatPromptTemplate
+from langchain.prompts.chat import BaseMessagePromptTemplate, ChatPromptTemplate
 from langchain.prompts.prompt import PromptTemplate
 from langchain.schema import PromptValue
 from pydantic import BaseModel, Extra, Field, root_validator
@@ -84,15 +84,7 @@ class ZBasePromptTemplate(BasePromptTemplate):
 
     def partial(self, **kwargs: Union[str, Callable[[], str]]) -> ZBasePromptTemplate:
         """Return a partial of the prompt template."""
-        prompt_dict = self.__dict__.copy()
-        prompt_dict["input_variables"] = list(
-            set(self.input_variables).difference(kwargs)
-        )
-        prompt_dict["permissive_partial_variables"] = {
-            **self.permissive_partial_variables,
-            **kwargs,
-        }
-        return type(self)(**prompt_dict)
+        return self.permissive_partial(**kwargs)
 
     def permissive_partial(self, **kwargs: Any) -> ZBasePromptTemplate:
         """Return a partial of the prompt template.
@@ -171,6 +163,31 @@ class ZPromptTemplate(ZBasePromptTemplate, PromptTemplate):
 
 class ZChatPromptTemplate(ZBasePromptTemplate, ChatPromptTemplate):
     """A version of ChatPromptTemplate with extended flexibility."""
+
+    @root_validator(pre=True)
+    def validate_input_variables(cls, values: dict) -> dict:
+        """Overridden root validator that supports permissive partials."""
+        messages = values["messages"]
+        input_vars = set()
+        for message in messages:
+            if isinstance(message, BaseMessagePromptTemplate):
+                input_vars.update(message.input_variables)
+        if "partial_variables" in values:
+            input_vars = input_vars - set(values["partial_variables"])
+        # overridden part:
+        if "permissive_partial_variables" in values:
+            input_vars = input_vars - set(values["permissive_partial_variables"])
+        # end overridden part
+        if "input_variables" in values:
+            if input_vars != set(values["input_variables"]):
+                raise ValueError(
+                    "Got mismatched input_variables. "
+                    f"Expected: {input_vars}. "
+                    f"Got: {values['input_variables']}"
+                )
+        else:
+            values["input_variables"] = list(input_vars)
+        return values
 
     def _format_prompt(self, **kwargs: Any) -> PromptValue:
         return ChatPromptTemplate.format_prompt(self, **kwargs)

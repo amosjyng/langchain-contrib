@@ -119,8 +119,8 @@ def test_tools() -> None:
         [PythonREPLTool(), TerminalTool()],  # type: ignore
         verbose=True,
     )
-    assert chain({"choice": "Python REPL", "action_input": "print(2 ** 16)"}) == {
-        "choice": "Python REPL",
+    assert chain({"choice": "Python_REPL", "action_input": "print(2 ** 16)"}) == {
+        "choice": "Python_REPL",
         "action_input": "print(2 ** 16)",
         "action_result": "65536\n",
     }

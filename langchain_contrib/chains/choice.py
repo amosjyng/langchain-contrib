@@ -120,7 +120,10 @@ class ChoiceChain(Chain):
         choice = picker_output.pop(self.choice_key)
         assert isinstance(choice, str), f"Choice '{choice}' is not a str"
         if choice not in self.choices:
-            raise KeyError(f"Choice picked does not exist: '{choice}'")
+            raise KeyError(
+                f"Choice picked does not exist: '{choice}'. "
+                f"Choices are: {list(self.choices.keys())}"
+            )
         chosen_chain = self.choices[choice]
 
         # Massage picker output into chosen chain inputs

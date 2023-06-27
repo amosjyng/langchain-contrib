@@ -47,6 +47,7 @@ class FakeLLM(LLM, BaseModel):
         prompt: str,
         stop: Optional[List[str]] = None,
         run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs: Any,
     ) -> str:
         """First try to lookup in queries, else return 'foo' or 'bar'."""
         if self.sequenced_responses is not None and self.num_calls < len(
