@@ -1,9 +1,12 @@
 """Fake chains for testing purposes."""
 
-from typing import Callable, Dict, List, Optional
+from __future__ import annotations
+
+from typing import Any, Callable, Dict, List, Optional
 
 from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
+from langchain.chains.router import RouterChain
 from pydantic import Extra
 
 
@@ -27,7 +30,7 @@ class FakeChain(Chain):
 
     This is ignored if `inputs_to_outputs` is defined.
     """
-    inputs_to_outputs: Optional[Callable[[Dict[str, str]], Dict[str, str]]] = None
+    inputs_to_outputs: Optional[Callable[[Dict[str, Any]], Dict[str, Any]]] = None
     """Function to transform inputs to outputs."""
 
     @property
@@ -63,3 +66,22 @@ def FakePicker(input_key: str = "c", output_key: str = "choice") -> FakeChain:
         expected_outputs=[output_key],
         inputs_to_outputs=lambda inputs: {output_key: inputs[input_key]},
     )
+
+
+def fake_router_inputs_to_outputs_fn(inputs: Dict[str, Any]) -> Dict[str, Any]:
+    """Pass-through function to allow tester to specify exact inputs."""
+    if "destination" not in inputs:
+        inputs["destination"] = None
+    if "next_inputs" not in inputs:
+        inputs["next_inputs"] = {}
+    return inputs
+
+
+class FakeRouterChain(RouterChain, FakeChain):
+    """Fake router chain that returns predefined outputs."""
+
+    expected_inputs: List[str] = ["destination"]
+    inputs_to_outputs: Callable[
+        [Dict[str, Any]], Dict[str, Any]
+    ] = fake_router_inputs_to_outputs_fn
+    """Pass-through function to allow tester to specify exact inputs."""
