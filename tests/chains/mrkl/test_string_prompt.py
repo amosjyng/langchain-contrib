@@ -27,9 +27,8 @@ async def test_string_prompt() -> Dict[str, str]:
                 ),
                 "agent_scratchpad": "",
             },
-            return_only_outputs=True,
         )
-        assert result["action_input"] == "ls"
+        assert result["next_inputs"] == "ls"
         return result
 
 

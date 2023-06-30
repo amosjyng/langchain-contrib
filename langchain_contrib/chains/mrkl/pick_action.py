@@ -7,7 +7,7 @@ from typing import Dict, List, Optional, Tuple
 
 from langchain.base_language import BaseLanguageModel
 from langchain.callbacks.manager import CallbackManagerForChainRun
-from langchain.chains.base import Chain
+from langchain.chains.router import RouterChain
 from langchain.llms.base import BaseLLM
 from langchain.prompts.base import BasePromptTemplate
 from langchain.tools.base import BaseTool
@@ -19,7 +19,7 @@ from .prompt import MrklPromptSelector
 FINAL_ANSWER_ACTION = "Final Answer:"
 
 
-class MrklPickActionChain(Chain):
+class MrklPickActionChain(RouterChain):
     """MRKL chain that selects a tool for use."""
 
     llm: BaseLanguageModel
@@ -28,9 +28,9 @@ class MrklPickActionChain(Chain):
     """Prompt for a single response of the LLM."""
     observation_prefix: str = "Observation: "
     """Observation prefix to stop the MRKL at."""
-    choice_key: str = "choice"
+    choice_key: str = "destination"
     """Output key for which action the LLM chose."""
-    action_input_key: str = "action_input"
+    action_input_key: str = "next_inputs"
     """Output key for the action's input."""
 
     @classmethod
@@ -58,7 +58,7 @@ class MrklPickActionChain(Chain):
     @property
     def output_keys(self) -> List[str]:
         """Output keys this chain expects."""
-        return ["observation", self.choice_key, self.action_input_key]
+        return ["thought", "destination", "next_inputs"]
 
     def get_action_and_input(self, llm_output: str) -> Tuple[str, str, str]:
         """Parse out the action and input from the LLM output.
@@ -71,10 +71,10 @@ class MrklPickActionChain(Chain):
         match = re.search(regex, llm_output, re.DOTALL)
         if not match:
             raise ValueError(f"Could not parse LLM output: `{llm_output}`")
-        observation = match.group(1).strip()
+        thought = match.group(1).strip()
         action = match.group(2).strip()
         action_input = match.group(3)
-        return observation, action, action_input.strip(" ").strip('"')
+        return thought, action, action_input.strip(" ").strip('"')
 
     def get_chat_action_and_input(self, llm_output: str) -> Tuple[str, str, str]:
         """Parse out the action and input from the LLM output.
@@ -86,10 +86,10 @@ class MrklPickActionChain(Chain):
         try:
             match = re.search(r"Thought:(.*)\n*Action:", llm_output, re.DOTALL)
             assert match is not None
-            observation = match.group(1).strip()
+            thought = match.group(1).strip()
             _, action, _ = llm_output.split("```")
             response = json.loads(action.strip())
-            return observation, response["action"], response["action_input"]
+            return thought, response["action"], response["action_input"]
 
         except Exception:
             raise ValueError(f"Could not parse LLM output: {llm_output}")
@@ -106,11 +106,11 @@ class MrklPickActionChain(Chain):
             stop=[f"\n{self.observation_prefix.rstrip()}"],
         )
         if isinstance(self.llm, BaseLLM):
-            observation, action, input = self.get_action_and_input(llm_response)
+            thought, action, input = self.get_action_and_input(llm_response)
         else:
-            observation, action, input = self.get_chat_action_and_input(llm_response)
+            thought, action, input = self.get_chat_action_and_input(llm_response)
         return {
-            "observation": observation,
+            "thought": thought,
             self.choice_key: action,
             self.action_input_key: input,
         }

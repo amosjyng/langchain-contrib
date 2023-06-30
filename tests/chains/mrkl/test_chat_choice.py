@@ -27,7 +27,6 @@ async def test_chat_choice() -> Dict[str, str]:
                 ),
                 "agent_scratchpad": "",
             },
-            return_only_outputs=True,
         )
         assert result["action_result"] == "dist/  docs/  langchain_contrib/  tests/"
         return result

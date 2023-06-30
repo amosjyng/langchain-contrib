@@ -7,12 +7,12 @@ from langchain.base_language import BaseLanguageModel
 from langchain.prompts.base import BasePromptTemplate
 from langchain.tools.base import BaseTool
 
-from langchain_contrib.chains import ChoiceChain, ToolChain
+from langchain_contrib.chains import ZMultiRouteChain
 
 from .pick_action import MrklPickActionChain
 
 
-class MrklLoopChain(ChoiceChain):
+class MrklLoopChain(ZMultiRouteChain):
     """Chain executing one single iteration of the MRKL agent."""
 
     @classmethod
@@ -26,7 +26,10 @@ class MrklLoopChain(ChoiceChain):
     ) -> MrklLoopChain:
         """Create a new instance of the chain from tools."""
         picker = MrklPickActionChain.from_tools(llm, tools, prompt, embed_scratchpad)
-        choices = {tool.name: ToolChain(tool=tool) for tool in tools}
-        return cls(
-            choice_picker=picker, choices=choices, ignore_keys=["observation"], **kwargs
+        loop_chain = cls.from_tools(
+            router_chain=picker,
+            tools=tools,
+            **kwargs,
         )
+        assert isinstance(loop_chain, MrklLoopChain)
+        return loop_chain

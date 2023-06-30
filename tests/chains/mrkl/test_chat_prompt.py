@@ -27,9 +27,8 @@ async def test_chat_prompt() -> Dict[str, str]:
                 ),
                 "agent_scratchpad": "",
             },
-            return_only_outputs=True,
         )
-        assert result["action_input"].startswith("ls")
+        assert result["next_inputs"].startswith("ls")
         return result
 
 
