@@ -18,9 +18,9 @@ def test_proceed() -> None:
         llm = FakeLLM(sequenced_responses=["date"])
         safe_terminal = SafeTerminalChain(human=BaseHuman())
         assert safe_terminal(llm("Execute a command")) == {
-            "choice": "Proceed",
             "command": "date",
             "output": "Fri Mar 24 16:26:49 AEDT 2023",
+            "overrides": {},
         }
 
 
@@ -37,7 +37,9 @@ def test_edit() -> None:
             llm = FakeLLM(sequenced_responses=["rm important.txt"])
             safe_terminal = SafeTerminalChain(human=BaseHuman())
             assert safe_terminal(llm("Execute a command")) == {
-                "choice": "Edit command",
                 "command": "touch important.txt",
                 "output": "",
+                "overrides": {
+                    "command": "rm important.txt",
+                },
             }

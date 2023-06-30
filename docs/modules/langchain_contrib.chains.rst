@@ -28,6 +28,14 @@ langchain\_contrib.chains.dummy module
    :undoc-members:
    :show-inheritance:
 
+langchain\_contrib.chains.multiroute module
+-------------------------------------------
+
+.. automodule:: langchain_contrib.chains.multiroute
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 langchain\_contrib.chains.testing module
 ----------------------------------------
 
