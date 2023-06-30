@@ -80,7 +80,7 @@ def fake_router_inputs_to_outputs_fn(inputs: Dict[str, Any]) -> Dict[str, Any]:
 class FakeRouterChain(RouterChain, FakeChain):
     """Fake router chain that returns predefined outputs."""
 
-    expected_inputs: List[str] = ["destination"]
+    expected_inputs: List[str] = ["destination", "next_inputs"]
     inputs_to_outputs: Callable[
         [Dict[str, Any]], Dict[str, Any]
     ] = fake_router_inputs_to_outputs_fn

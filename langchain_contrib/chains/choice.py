@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from typing import Any, Callable, Dict, List, Mapping, Optional
 
+from deprecation import deprecated
 from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
 from langchain.input import get_color_mapping
@@ -44,6 +45,7 @@ class ChoiceChain(Chain):
     chain_outputs_key: str = "choice_outputs"
     """Key for chosen chain outputs."""
 
+    @deprecated(details="Use langchain_contrib.chains.ZMultiRouteChain instead.")
     @classmethod
     def from_tools(
         cls,
@@ -96,6 +98,7 @@ class ChoiceChain(Chain):
         It is assumed that each individual choice chain will validate its own output.
         """
 
+    @deprecated(details="Use langchain_contrib.chains.ZMultiRouteChain instead.")
     def _call(
         self,
         inputs: Dict[str, str],

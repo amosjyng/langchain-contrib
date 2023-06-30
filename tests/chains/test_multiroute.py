@@ -1,18 +1,17 @@
-"""Test that the ChoiceChain can successfully make choices."""
+"""Test that ZMultiRouteChain can successfully make choices."""
 
 
-from langchain.chains.router import MultiRouteChain
 from langchain.tools.python.tool import PythonREPLTool
 
-from langchain_contrib.chains import ChoiceChain, ToolChain
-from langchain_contrib.chains.testing import FakeChain, FakePicker, FakeRouterChain
+from langchain_contrib.chains import ToolChain, ZMultiRouteChain
+from langchain_contrib.chains.testing import FakeChain, FakeRouterChain
 from langchain_contrib.tools import TerminalTool, ZBaseTool
 
 
 def test_make_choices() -> None:
-    """Test that the choice chain can pick different choices with different outputs."""
-    choices = MultiRouteChain(
-        router_chain=FakeRouterChain(),
+    """Test that ZMultiRouteChain can pick different choices with different outputs."""
+    choices = ZMultiRouteChain(
+        router_chain=FakeRouterChain(expected_inputs=["destination"]),
         default_chain=FakeChain(),
         destination_chains={
             "first": FakeChain(output={"a": "one"}),
@@ -32,12 +31,12 @@ def test_make_choices() -> None:
 
 
 def test_separated_io() -> None:
-    """Test that the choice chain can retain input/output information.
+    """Test that ZMultiRouteChain can retain input/output information.
 
     Input information should be retained even when output contains the same keys.
     """
-    choices = MultiRouteChain(
-        router_chain=FakeRouterChain(expected_inputs=["destination", "next_inputs"]),
+    choices = ZMultiRouteChain(
+        router_chain=FakeRouterChain(),
         default_chain=FakeChain(),
         destination_chains={
             "first": FakeChain(output={"a": "one"}),
@@ -60,28 +59,30 @@ def test_separated_io() -> None:
 
 
 def test_tools() -> None:
-    """Test that the ChoiceChain can be loaded and run from tools."""
-    chain = ChoiceChain.from_tools(
-        FakePicker(input_key="choice"),
+    """Test that ZMultiRouteChain can be loaded and run from tools."""
+    chain = ZMultiRouteChain.from_tools(
+        FakeRouterChain(),
         [PythonREPLTool(), TerminalTool()],  # type: ignore
         verbose=True,
     )
-    assert chain({"choice": "Python_REPL", "action_input": "print(2 ** 16)"}) == {
-        "choice": "Python_REPL",
+    assert chain({"destination": "Python_REPL", "next_inputs": "print(2 ** 16)"}) == {
+        "destination": "Python_REPL",
+        "next_inputs": "print(2 ** 16)",
         "action_input": "print(2 ** 16)",
         "action_result": "65536\n",
     }
 
 
 def test_tool_colors() -> None:
-    """Test that the ChoiceChain sets tool colors properly."""
-    chain = ChoiceChain.from_tools(
-        FakePicker(input_key="choice"),
+    """Test that ZMultiRouteChain sets tool colors properly."""
+    chain = ZMultiRouteChain.from_tools(
+        FakeRouterChain(),
         [PythonREPLTool(), TerminalTool()],  # type: ignore
     )
     colors = set()
-    for choice in chain.choices.values():
+    for choice in chain.destination_chains.values():
         assert isinstance(choice, ToolChain)
         tool = choice.tool
         assert isinstance(tool, ZBaseTool)
         colors.add(tool.color)
+    assert len(colors) == 2
