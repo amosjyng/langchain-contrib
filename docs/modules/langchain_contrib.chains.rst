@@ -12,14 +12,6 @@ Subpackages
 Submodules
 ----------
 
-langchain\_contrib.chains.choice module
----------------------------------------
-
-.. automodule:: langchain_contrib.chains.choice
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 langchain\_contrib.chains.dummy module
 --------------------------------------
 

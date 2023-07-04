@@ -7,6 +7,6 @@ This is a collection of experimental chains.
    :maxdepth: 4
 
    tool.ipynb
-   choice.ipynb
+   zmultiroute.ipynb
    fake.ipynb
    dummy.ipynb
