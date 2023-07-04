@@ -42,8 +42,8 @@ class ZBaseTool(BaseTool):
         self,
         tool_input: Union[str, Dict],
         verbose: Optional[bool] = None,
-        start_color: Optional[str] = "green",
-        color: Optional[str] = "green",
+        start_color: Optional[str] = None,
+        color: Optional[str] = None,
         callbacks: Callbacks = None,
         **kwargs: Any,
     ) -> Any:
@@ -56,9 +56,13 @@ class ZBaseTool(BaseTool):
             verbose = self.verbose
 
         if self.base_tool:
-            return self.base_tool.run(tool_input, verbose, start_color, color, **kwargs)
+            return self.base_tool.run(
+                tool_input, verbose, start_color, color, callbacks=callbacks, **kwargs
+            )
         else:
-            return super().run(tool_input, verbose, start_color, color, **kwargs)
+            return super().run(
+                tool_input, verbose, start_color, color, callbacks=callbacks, **kwargs
+            )
 
     async def arun(
         self,

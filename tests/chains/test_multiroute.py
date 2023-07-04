@@ -1,11 +1,15 @@
 """Test that ZMultiRouteChain can successfully make choices."""
 
 
-from langchain.tools.python.tool import PythonREPLTool
+from typing import Any, List, Optional
 
-from langchain_contrib.chains import ToolChain, ZMultiRouteChain
+from langchain.callbacks.base import BaseCallbackHandler
+from langchain.tools.python.tool import PythonREPLTool
+from pydantic import BaseModel
+
+from langchain_contrib.chains import ZMultiRouteChain
 from langchain_contrib.chains.testing import FakeChain, FakeRouterChain
-from langchain_contrib.tools import TerminalTool, ZBaseTool
+from langchain_contrib.tools import TerminalTool
 
 
 def test_make_choices() -> None:
@@ -73,16 +77,34 @@ def test_tools() -> None:
     }
 
 
+class ColorCheckingHandler(BaseCallbackHandler, BaseModel):
+    """A custom callback handler for testing colors in tool logging."""
+
+    expected_colors: List[str]
+    tool_end_count: int = 0
+    raise_error: bool = True
+
+    def on_tool_end(
+        self, output: str, *, color: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """Check that the right color is being set."""
+        self.tool_end_count += 1
+        assert color == self.expected_colors.pop(0)
+
+
 def test_tool_colors() -> None:
     """Test that ZMultiRouteChain sets tool colors properly."""
     chain = ZMultiRouteChain.from_tools(
         FakeRouterChain(),
         [PythonREPLTool(), TerminalTool()],  # type: ignore
     )
-    colors = set()
-    for choice in chain.destination_chains.values():
-        assert isinstance(choice, ToolChain)
-        tool = choice.tool
-        assert isinstance(tool, ZBaseTool)
-        colors.add(tool.color)
-    assert len(colors) == 2
+    callback = ColorCheckingHandler(expected_colors=["blue", "yellow"])
+    chain(
+        {"destination": "Python_REPL", "next_inputs": "print(2 ** 16)"},
+        callbacks=[callback],
+    )
+    chain(
+        {"destination": "Terminal", "next_inputs": "echo 'hello world'"},
+        callbacks=[callback],
+    )
+    assert callback.tool_end_count == 2

@@ -37,5 +37,8 @@ class ToolChain(Chain):
     ) -> Dict[str, str]:
         """Run the tool for this chain."""
         tool_input = inputs[self.tool_input_key]
-        tool_output = self.tool.run(tool_input, observation_prefix="", llm_prefix="")
+        callbacks = run_manager.get_child() if run_manager else None
+        tool_output = self.tool.run(
+            tool_input, callbacks=callbacks, observation_prefix="", llm_prefix=""
+        )
         return {self.tool_output_key: tool_output}
