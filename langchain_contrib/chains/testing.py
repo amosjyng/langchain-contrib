@@ -54,20 +54,6 @@ class FakeChain(Chain):
         return self.inputs_to_outputs(inputs)
 
 
-def FakePicker(input_key: str = "c", output_key: str = "choice") -> FakeChain:
-    """Create a fake chain that converts the input key to the output key.
-
-    This is a convenience function that allows you to specify arbitrary fake outputs
-    from arbitrary fake inputs without having to create a new FakeChain every time.
-    Especially useful for testing `ChoiceChain`s.
-    """
-    return FakeChain(
-        expected_inputs=[input_key],
-        expected_outputs=[output_key],
-        inputs_to_outputs=lambda inputs: {output_key: inputs[input_key]},
-    )
-
-
 def fake_router_inputs_to_outputs_fn(inputs: Dict[str, Any]) -> Dict[str, Any]:
     """Pass-through function to allow tester to specify exact inputs."""
     if "destination" not in inputs:
