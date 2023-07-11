@@ -17,7 +17,7 @@ async def test_chat_choice() -> Dict[str, str]:
     """Check that the MRKL chain can decide and execute an action."""
     with current_directory():
         llm = ChatOpenAI()  # type: ignore
-        tools = load_tools(["persistent_terminal"])
+        tools = load_tools(["smart_terminal"])
         loop = MrklLoopChain.from_llm_and_tools(llm=llm, tools=tools)
         result = loop(
             {

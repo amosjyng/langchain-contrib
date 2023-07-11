@@ -7,5 +7,5 @@ This is a collection of experimental tools.
    :maxdepth: 4
 
    z_base.ipynb
-   persistent_terminal.ipynb
+   smart_terminal.ipynb
    safe_terminal.ipynb

@@ -19,7 +19,7 @@ async def test_use_terminal() -> str:
     """
     with current_directory():
         llm = OpenAI(temperature=0)  # type: ignore
-        tools = load_tools(["persistent_terminal"], llm=llm)
+        tools = load_tools(["smart_terminal"], llm=llm)
         agent = initialize_agent(tools, llm, verbose=True)
         result = agent.run(
             "List the folders in the current directory. Enter into one of them. List "

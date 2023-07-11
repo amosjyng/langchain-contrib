@@ -1,1 +1,1 @@
-"""Tests for Terminal with persistent shell memory."""
+"""Tests for Terminal with more advanced shell behavior."""

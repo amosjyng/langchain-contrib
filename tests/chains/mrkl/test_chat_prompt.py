@@ -17,7 +17,7 @@ async def test_chat_prompt() -> Dict[str, str]:
     """Check that the chat MRKL prompt gets the LLM to pick an action as expected."""
     with current_directory():
         llm = ChatOpenAI()  # type: ignore
-        tools = load_tools(["persistent_terminal"])
+        tools = load_tools(["smart_terminal"])
         picker = MrklPickActionChain.from_tools(llm=llm, tools=tools)
         result = picker(
             {
